@@ -1,11 +1,12 @@
 <template>
-  <v-app>
-    <v-main>
-      <HelloWorld />
-    </v-main>
-  </v-app>
+  <div id="app">
+    <v-app>
+      <MainHeader></MainHeader>
+      <router-view></router-view>
+    </v-app>
+  </div>
 </template>
 
 <script setup lang="ts">
-  import HelloWorld from '@/components/HelloWorld.vue'
+  import MainHeader from './components/MainHeader.vue';
 </script>
