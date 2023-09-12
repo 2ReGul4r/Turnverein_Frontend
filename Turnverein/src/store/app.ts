@@ -10,7 +10,8 @@ export const useAppStore = defineStore('app', {
     memberList: [] as Member[],
     trainerList: [] as Trainer[],
     sportList: [] as Sport[],
-    coachingList: [] as Coaching[]
+    coachingList: [] as Coaching[],
+    isAuthenticated: false as Boolean,
   }),
 
   actions: {
@@ -25,6 +26,14 @@ export const useAppStore = defineStore('app', {
         console.log(error);
       }
     },
+    checkAuthentication(commit: any) {
+      const token = localStorage.getItem('token');
+      if (token) {
+        commit('setAuthenticated', true);
+      } else {
+        commit('setAuthenticated', false);
+      }
+    },
   }, 
 
   getters: {
@@ -33,5 +42,6 @@ export const useAppStore = defineStore('app', {
     getTrainerList: (state) => state.trainerList,
     getSportList: (state) => state.sportList,
     getCoachingList: (state) => state.coachingList,
+    isAuthenticated: (state) => state.isAuthenticated,
   },
 })
