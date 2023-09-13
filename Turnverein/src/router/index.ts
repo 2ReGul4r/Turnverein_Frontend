@@ -1,5 +1,6 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAppStore } from '../store/app';
 
 const routes = [
   {
@@ -9,7 +10,7 @@ const routes = [
       {
         path: '',
         name: 'Home',
-        component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
+        component: () => import('@/views/Home.vue'),
       }, {
         path: 'login',
         name: 'Login',
@@ -17,16 +18,20 @@ const routes = [
       }
     ],
   },
-]
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-})
+});
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'Login' /* && isAuthed*/) next({ name: 'Login' })
-  else next()
-})
+  const store = useAppStore();
+  if (to.name !== 'Login' && !store.isAuthenticated) {
+    next({ name: 'Login' });
+  } else {
+    next()
+  }
+});
 
-export default router
+export default router;

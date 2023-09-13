@@ -31,7 +31,9 @@
           <v-list-item prepend-icon="mdi-account-group-outline" title="Schüler" value="pupil"></v-list-item>
         </v-list>
       </v-navigation-drawer>
-      <v-main style="height: 500px"></v-main>
+      <v-main class="main" style="height: 100%">
+        <slot></slot>
+      </v-main>
     </v-layout>
   </v-card>
 </template>
@@ -39,8 +41,6 @@
 <script lang="ts">
 export default {
   name: 'MainHeader',
-  methods: {
-  },
   data () {
     return {
       drawer: true,
@@ -49,3 +49,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.main {
+  display: flex;
+}
+</style>

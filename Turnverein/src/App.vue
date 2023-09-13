@@ -1,12 +1,26 @@
 <template>
   <div id="app">
     <v-app>
-      <MainHeader></MainHeader>
-      <router-view></router-view>
+      <MainHeader v-if="!isLoginPage">
+        <router-view/>
+      </MainHeader>
+      <router-view v-else/>
     </v-app>
   </div>
 </template>
 
-<script setup lang="ts">
-  import MainHeader from './components/MainHeader.vue';
+<script lang="ts">
+import { useAppStore } from './store/app';
+
+const store = useAppStore;
+
+export default {
+  name: 'App',
+  computed: {
+    isLoginPage() {
+      return this.$route.path === '/login';
+    },
+  },
+};
+
 </script>
