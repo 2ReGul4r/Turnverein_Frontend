@@ -24,12 +24,14 @@
         <v-divider></v-divider>
 
         <v-list density="compact" nav>
-          <v-list-item prepend-icon="mdi-home-city" title="Home" value="home"></v-list-item>
-          <v-list-item prepend-icon="mdi-account" title="My Account" value="account"></v-list-item>
-          <v-list-item prepend-icon="mdi-account-group-outline" title="Users" value="users"></v-list-item>
+          <v-list-item prepend-icon="mdi-list-box" title="Meine Kurse" value="myCourses"></v-list-item>
+          <v-list-item prepend-icon="mdi-list-box" title="Alle Kurse" value="allCourses"></v-list-item>
+          <v-list-item prepend-icon="mdi-account-edit" title="Profil bearbeien" value="profile"></v-list-item>
+          <v-list-item prepend-icon="mdi-account-group-outline" title="Trainer" value="trainer"></v-list-item>
+          <v-list-item prepend-icon="mdi-account-group-outline" title="Schüler" value="pupil"></v-list-item>
         </v-list>
       </v-navigation-drawer>
-      <v-main style="height: 250px"></v-main>
+      <v-main style="height: 500px"></v-main>
     </v-layout>
   </v-card>
 </template>
