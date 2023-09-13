@@ -58,13 +58,9 @@ export default {
     methods: {
         async login() {
             const store = useAppStore();
-            const queryParams = {
-                username: this.username,
-                password: this.password,
-            };
-            await axiosInstance.get(
-                "login",
-                { params: queryParams }
+            await axiosInstance.post(
+                "login/",
+                { "username": this.username, "password": this.password },
             ).then((response: AxiosResponse) => {
                 console.log(response);
                 this.errors = false;
