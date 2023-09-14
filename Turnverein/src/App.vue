@@ -11,11 +11,15 @@
 
 <script lang="ts">
 import { useAppStore } from './store/app';
+import MainHeader from './components/MainHeader.vue';
 
 const store = useAppStore;
 
 export default {
   name: 'App',
+  components: {
+    MainHeader,
+  },
   computed: {
     isLoginPage() {
       return this.$route.path === '/login';

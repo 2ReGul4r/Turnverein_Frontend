@@ -3,20 +3,20 @@
     <v-layout>
       <v-navigation-drawer
         v-model="drawer"
+        @click="rail = false"
         :rail="rail"
         permanent
-        @click="rail = false"
       >
         <v-list-item
-          prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
-          title="John Leider"
+          prepend-icon="mdi-account"
+          :title="getUserTitle"
           nav
         >
           <template v-slot:append>
             <v-btn
-              variant="text"
-              icon="mdi-chevron-left"
               @click.stop="rail = !rail"
+              icon="mdi-chevron-left"
+              variant="text"
             ></v-btn>
           </template>
         </v-list-item>
@@ -39,12 +39,28 @@
 </template>
 
 <script lang="ts">
+import { useUserStore } from "../store/user"
+import { Trainer } from "types"
+
 export default {
-  name: 'MainHeader',
+  name: "MainHeader",
+  computed: {
+    getUserTitle() {
+      if(!this.userData) {
+        return ""
+      }
+      return `${this.userData.first_name} ${this.userData.last_name}`
+    }
+  },
+  mounted () {
+    const userStore = useUserStore();
+    this.userData = userStore.getUserData;
+  },
   data () {
     return {
       drawer: true,
       rail: true,
+      userData: {} as Trainer,
     }
   },
 };

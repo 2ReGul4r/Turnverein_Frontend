@@ -3,10 +3,10 @@
         <v-card
             class="mx-auto"
             max-width="360"
-            title="User Registration"
+            title="Trainer Login"
         >
             <v-container>
-                <form>
+                <form v-on:submit.prevent="login">
                     <v-text-field
                         v-model="username"
                         autocomplete="username"
@@ -49,29 +49,43 @@
 </template>
 
 <script lang="ts">
-import axiosInstance from '../axios-config'
-import { AxiosResponse, AxiosError } from 'axios'
-import router from '../router'
-import { useAppStore } from '../store/app'
+import axiosInstance from "../axios-config"
+import { AxiosResponse, AxiosError } from "axios"
+import router from "../router"
+import { useUserStore } from "../store/user"
 export default {
     name: "Login",
     methods: {
         async login() {
-            const store = useAppStore();
             await axiosInstance.post(
                 "login/",
                 { "username": this.username, "password": this.password },
-            ).then((response: AxiosResponse) => {
+            ).then(async (response: AxiosResponse) => {
                 console.log(response);
                 this.errors = false;
-                localStorage.setItem('token', response.data);
-                store.checkAuthentication();
-                router.push('/home')
+                localStorage.setItem("token", response.data.token);
+                await this.fetchUserData(this.username);
+                router.push("/");
             }).catch((error: AxiosError) => {
                 console.log(error);
                 this.errors = true;
             })
-        }
+        },
+        async fetchUserData(username: string) {
+            const userStore = useUserStore();
+            await axiosInstance.get(
+                "member",
+                { 
+                    params: { "username": username },
+                    headers: { 'Authorization': `Token ${localStorage.getItem("token")}` } 
+                },
+            ).then((reponse: AxiosResponse) => {
+                userStore.userData = reponse.data;
+            }).catch((error: AxiosError) => {
+                console.log(error);
+                this.errors = true;
+            });
+        },
     },
     data () {
         return {

@@ -27,7 +27,9 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const store = useAppStore();
-  if (to.name !== 'Login' && !store.isAuthenticated) {
+  console.log(!store.isAuthenticated);
+  if (!store.isAuthenticated && to.name !== 'Login') {
+    console.log('redirected to login')
     next({ name: 'Login' });
   } else {
     next()
