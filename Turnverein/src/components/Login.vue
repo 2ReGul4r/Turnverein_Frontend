@@ -23,8 +23,8 @@
                         variant="outlined"
                     />
                     <v-alert
-                        v-if="errors"
-                        @click:close="errors = false"
+                        v-if="showError"
+                        @click:close="showError = false"
                         closable
                         text="The username or password you entered was incorrect. Please try again."
                         title="Wrong credentials"
@@ -61,29 +61,28 @@ export default {
                 "login/",
                 { "username": this.username, "password": this.password },
             ).then(async (response: AxiosResponse) => {
-                console.log(response);
-                this.errors = false;
                 localStorage.setItem("token", response.data.token);
                 await this.fetchUserData(this.username);
                 router.push("/");
             }).catch((error: AxiosError) => {
                 console.log(error);
-                this.errors = true;
             })
         },
         async fetchUserData(username: string) {
             const userStore = useUserStore();
             await axiosInstance.get(
-                "member",
+                "trainer",
                 { 
                     params: { "username": username },
                     headers: { 'Authorization': `Token ${localStorage.getItem("token")}` } 
                 },
-            ).then((reponse: AxiosResponse) => {
-                userStore.userData = reponse.data;
+            ).then((response: AxiosResponse) => {
+                console.log(response);
+                if(response.data.data.length) {
+                    userStore.userData = response.data.data[0];
+                }
             }).catch((error: AxiosError) => {
                 console.log(error);
-                this.errors = true;
             });
         },
     },
@@ -91,15 +90,9 @@ export default {
         return {
             username: "",
             password: "",
-            errors: false,
             showPassword: false,
+            showError: false,
         }
   },
 };
 </script>
-
-<style>
-.login_wrapper {
-    margin: 32px;
-}
-</style>

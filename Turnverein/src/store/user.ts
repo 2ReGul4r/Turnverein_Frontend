@@ -1,7 +1,5 @@
 import { defineStore } from 'pinia'
 import { Trainer } from 'types'
-import axiosInstance from '../axios-config'
-import { AxiosResponse, AxiosError } from 'axios'
 
 export const useUserStore = defineStore('app', {
   state: () => ({
@@ -10,5 +8,6 @@ export const useUserStore = defineStore('app', {
 
   getters: {
     getUserData: (state) => state.userData,
+    isAuthenticated: () => localStorage.getItem('token'),
   },
 });

@@ -10,7 +10,6 @@ export const useAppStore = defineStore('app', {
     trainerList: [] as Trainer[],
     sportList: [] as Sport[],
     coachingList: [] as Coaching[],
-    error: false as boolean
   }),
 
   getters: {
@@ -18,9 +17,7 @@ export const useAppStore = defineStore('app', {
     getMemberList: (state) => state.memberList,
     getTrainerList: (state) => state.trainerList,
     getSportList: (state) => state.sportList,
-    getCoachingList: (state) => state.coachingList,
-    isAuthenticated: () => localStorage.getItem('token') !== null ? true : false,
-    gotErrors: (state) => state.error,
+    getCoachingList: (state) => state.coachingList
   },
 
   actions: {

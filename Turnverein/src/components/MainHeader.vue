@@ -40,27 +40,24 @@
 
 <script lang="ts">
 import { useUserStore } from "../store/user"
-import { Trainer } from "types"
 
 export default {
   name: "MainHeader",
   computed: {
     getUserTitle() {
-      if(!this.userData) {
+      const userStore = useUserStore();
+      console.log(userStore.getUserData);
+      console.log(userStore.userData);
+      if(!userStore.getUserData) {
         return ""
       }
-      return `${this.userData.first_name} ${this.userData.last_name}`
+      return `${userStore.getUserData.first_name} ${userStore.getUserData.last_name}`
     }
-  },
-  mounted () {
-    const userStore = useUserStore();
-    this.userData = userStore.getUserData;
   },
   data () {
     return {
       drawer: true,
       rail: true,
-      userData: {} as Trainer,
     }
   },
 };
@@ -69,5 +66,6 @@ export default {
 <style>
 .main {
   display: flex;
+  margin: 32px;
 }
 </style>
