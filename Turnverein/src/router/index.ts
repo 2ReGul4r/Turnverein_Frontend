@@ -1,7 +1,7 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAppStore } from '../store/app';
-import { useUserStore } from '@/store/user';
+import { useUserStore } from '../store/user';
 
 const routes = [
   {
