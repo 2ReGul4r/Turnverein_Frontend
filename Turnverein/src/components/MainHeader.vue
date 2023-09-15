@@ -3,20 +3,20 @@
     <v-layout>
       <v-navigation-drawer
         v-model="drawer"
+        @click="rail = false"
         :rail="rail"
         permanent
-        @click="rail = false"
       >
         <v-list-item
-          prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
-          title="John Leider"
+          prepend-icon="mdi-account"
+          :title="getUserTitle"
           nav
         >
           <template v-slot:append>
             <v-btn
-              variant="text"
-              icon="mdi-chevron-left"
               @click.stop="rail = !rail"
+              icon="mdi-chevron-left"
+              variant="text"
             ></v-btn>
           </template>
         </v-list-item>
@@ -39,8 +39,21 @@
 </template>
 
 <script lang="ts">
+import { useUserStore } from "../store/user"
+
 export default {
-  name: 'MainHeader',
+  name: "MainHeader",
+  computed: {
+    getUserTitle() {
+      const userStore = useUserStore();
+      console.log(userStore.getUserData);
+      console.log(userStore.userData);
+      if(!userStore.getUserData) {
+        return ""
+      }
+      return `${userStore.getUserData.first_name} ${userStore.getUserData.last_name}`
+    }
+  },
   data () {
     return {
       drawer: true,
@@ -53,5 +66,6 @@ export default {
 <style>
 .main {
   display: flex;
+  margin: 32px;
 }
 </style>

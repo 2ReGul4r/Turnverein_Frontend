@@ -3,10 +3,10 @@
         <v-card
             class="mx-auto"
             max-width="360"
-            title="User Registration"
+            title="Trainer Login"
         >
             <v-container>
-                <form>
+                <form v-on:submit.prevent="login">
                     <v-text-field
                         v-model="username"
                         autocomplete="username"
@@ -23,8 +23,8 @@
                         variant="outlined"
                     />
                     <v-alert
-                        v-if="errors"
-                        @click:close="errors = false"
+                        v-if="showError"
+                        @click:close="showError = false"
                         closable
                         text="The username or password you entered was incorrect. Please try again."
                         title="Wrong credentials"
@@ -49,43 +49,50 @@
 </template>
 
 <script lang="ts">
-import axiosInstance from '../axios-config'
-import { AxiosResponse, AxiosError } from 'axios'
-import router from '../router'
-import { useAppStore } from '../store/app'
+import axiosInstance from "../axios-config"
+import { AxiosResponse, AxiosError } from "axios"
+import router from "../router"
+import { useUserStore } from "../store/user"
 export default {
     name: "Login",
     methods: {
         async login() {
-            const store = useAppStore();
             await axiosInstance.post(
                 "login/",
                 { "username": this.username, "password": this.password },
-            ).then((response: AxiosResponse) => {
-                console.log(response);
-                this.errors = false;
-                localStorage.setItem('token', response.data);
-                store.checkAuthentication();
-                router.push('/home')
+            ).then(async (response: AxiosResponse) => {
+                localStorage.setItem("token", response.data.token);
+                await this.fetchUserData(this.username);
+                router.push("/");
             }).catch((error: AxiosError) => {
                 console.log(error);
-                this.errors = true;
             })
-        }
+        },
+        async fetchUserData(username: string) {
+            const userStore = useUserStore();
+            await axiosInstance.get(
+                "trainer",
+                { 
+                    params: { "username": username },
+                    headers: { 'Authorization': `Token ${localStorage.getItem("token")}` } 
+                },
+            ).then((response: AxiosResponse) => {
+                console.log(response);
+                if(response.data.data.length) {
+                    userStore.userData = response.data.data[0];
+                }
+            }).catch((error: AxiosError) => {
+                console.log(error);
+            });
+        },
     },
     data () {
         return {
             username: "",
             password: "",
-            errors: false,
             showPassword: false,
+            showError: false,
         }
   },
 };
 </script>
-
-<style>
-.login_wrapper {
-    margin: 32px;
-}
-</style>

@@ -1,8 +1,7 @@
-import axios from 'axios'
 import { defineStore } from 'pinia'
 import { City, Member, Trainer, Sport, Coaching } from 'types'
-
-const mainurl: string = "localhost:8000/api/";
+import axiosInstance from '../axios-config'
+import { AxiosResponse, AxiosError } from 'axios'
 
 export const useAppStore = defineStore('app', {
   state: () => ({
@@ -11,7 +10,6 @@ export const useAppStore = defineStore('app', {
     trainerList: [] as Trainer[],
     sportList: [] as Sport[],
     coachingList: [] as Coaching[],
-    authenticatedUser: false as Boolean,
   }),
 
   getters: {
@@ -19,27 +17,18 @@ export const useAppStore = defineStore('app', {
     getMemberList: (state) => state.memberList,
     getTrainerList: (state) => state.trainerList,
     getSportList: (state) => state.sportList,
-    getCoachingList: (state) => state.coachingList,
-    isAuthenticated: (state) => state.authenticatedUser,
+    getCoachingList: (state) => state.coachingList
   },
 
   actions: {
     async fetchMember() {
-      await axios.get(
-        `${mainurl}member`
-      ).then((reponse) => {
+      await axiosInstance.get(
+        "member"
+      ).then((reponse: AxiosResponse) => {
         this.memberList = reponse.data;
-      }).catch((error) => {
+      }).catch((error: AxiosError) => {
         console.log(error);
-      });
-    },
-    checkAuthentication() {
-      const token = localStorage.getItem('token');
-      if (token) {
-        this.authenticatedUser = true;
-      } else {
-        this.authenticatedUser = false;
-      }
+      }); 
     },
   }, 
 });
