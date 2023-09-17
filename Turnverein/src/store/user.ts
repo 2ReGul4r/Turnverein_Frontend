@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { Trainer } from 'types'
 
-export const useUserStore = defineStore('app', {
+export const useUserStore = defineStore('user', {
   state: () => ({
     userData: {} as Trainer,
   }),
