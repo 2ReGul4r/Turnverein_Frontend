@@ -39,21 +39,19 @@
 </template>
 
 <script lang="ts">
+import { useUserStore } from '../store/user';
+
+
 
 export default {
   name: "MainHeader",
   computed: {
     getUserTitle() {
-      if(!this.userData) {
+      const userStore = useUserStore();
+      if(!userStore.getUserData) {
         return ""
       }
-      return `${this.userData.first_name} ${this.userData.last_name}`
-    }
-  },
-  props: {
-    userData: {
-      type: Object,
-      required: true
+      return `${userStore.getUserData.first_name} ${userStore.getUserData.last_name}`
     }
   },
   data () {

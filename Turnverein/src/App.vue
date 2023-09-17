@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <v-app>
-      <MainHeader v-if="!isLoginPage" :user-data="">
+      <MainHeader v-if="!isLoginPage">
         <router-view/>
       </MainHeader>
       <router-view v-else/>

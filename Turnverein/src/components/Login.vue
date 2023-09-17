@@ -22,7 +22,8 @@
                         label="Password"
                         variant="outlined"
                     />
-                    <v-alert
+                </form>
+                <v-alert
                         v-if="showError"
                         @click:close="showError = false"
                         closable
@@ -31,7 +32,6 @@
                         type="error"
                         variant="tonal"
                     />
-                </form>
             </v-container>
 
             <v-divider></v-divider>
@@ -57,33 +57,17 @@ export default {
     name: "Login",
     methods: {
         async login() {
+            const userStore = useUserStore();
             await axiosInstance.post(
                 "login/",
                 { "username": this.username, "password": this.password },
             ).then(async (response: AxiosResponse) => {
                 localStorage.setItem("token", response.data.token);
-                await this.fetchUserData(this.username);
+                await userStore.fetchUserData(this.username);
                 router.push("/");
             }).catch((error: AxiosError) => {
                 console.log(error);
             })
-        },
-        async fetchUserData(username: string) {
-            const userStore = useUserStore();
-            await axiosInstance.get(
-                "trainer",
-                { 
-                    params: { "username": username },
-                    headers: { 'Authorization': `Token ${localStorage.getItem("token")}` } 
-                },
-            ).then((response: AxiosResponse) => {
-                console.log(response);
-                if(response.data.data.length) {
-                    userStore.userData = response.data.data[0];
-                }
-            }).catch((error: AxiosError) => {
-                console.log(error);
-            });
         },
     },
     data () {
