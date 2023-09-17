@@ -30,5 +30,5 @@ export const useAppStore = defineStore('app', {
         console.log(error);
       }); 
     },
-  }, 
+  },
 });

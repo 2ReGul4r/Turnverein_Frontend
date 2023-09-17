@@ -1,7 +1,5 @@
 // Composables
-import { createRouter, createWebHistory } from 'vue-router'
-import { useAppStore } from '../store/app';
-import { useUserStore } from '../store/user';
+import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
   {
@@ -27,11 +25,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const appStore = useAppStore();
-  const userStore = useUserStore();
-
-  console.log(!userStore.isAuthenticated);
-  if (!userStore.isAuthenticated && to.name !== 'Login') {
+  if (!localStorage.getItem('token') && to.name !== 'Login') {
     console.log('redirected to login')
     next({ name: 'Login' });
   } else {

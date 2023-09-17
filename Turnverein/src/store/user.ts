@@ -8,6 +8,5 @@ export const useUserStore = defineStore('app', {
 
   getters: {
     getUserData: (state) => state.userData,
-    isAuthenticated: () => localStorage.getItem('token'),
   },
 });
