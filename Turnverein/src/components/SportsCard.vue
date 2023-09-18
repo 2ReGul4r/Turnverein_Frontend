@@ -4,6 +4,15 @@
         :title="getTitle"
         :subtitle="getTrainerName"
     >
+        <v-chip prepend-icon="mdi-progress-clock">
+            {{ date.course_length }}
+        </v-chip>
+        <v-chip prepend-icon="mdi-calendar-clock">
+            {{ `${date.hour}:${date.minute}` }}
+        </v-chip>
+        <v-chip v-for="day in getDateDays" prepend-icon="mdi-sun-clock">
+            {{ day }}
+        </v-chip>
         <v-card-actions>
             <v-btn @click="editSport">Edit</v-btn>
         </v-card-actions>
@@ -17,13 +26,16 @@ export default defineComponent({
     name: "SportsCard",
     props: {
         sportdata: {
-            type: Object
+            type: Object,
+            required: true
         },
         trainer: {
-            type: Object
+            type: Object,
+            required: true
         },
-        dateList: {
-            type: Object
+        date: {
+            type: Object,
+            required: true
         },
         width: {
             type: Number,
@@ -35,7 +47,26 @@ export default defineComponent({
             return this.sportdata?.name;
         },
         getTrainerName() {
-            return `${this.trainer?.first_name} ${this.trainer?.last_name}`
+            return `with ${this.trainer?.first_name} ${this.trainer?.last_name}`
+        },
+        getDateDays() {
+            let day_list: Array<String> = [];
+            let day_code: number = this.date.days;
+            const formatter = {
+                "Saturday": 32,
+                "Friday": 16,
+                "Thursday": 8,
+                "Wednesday": 4,
+                "Tuesday": 2,
+                "Monday": 1
+            };
+            for (const [day, value] of Object.entries(formatter)) {
+                if (day_code >= value) {
+                    day_list.push(day);
+                    day_code -= value;
+                }
+            }
+            return day_list
         }
     },
     methods: {

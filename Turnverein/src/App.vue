@@ -11,6 +11,8 @@
 
 <script lang="ts">
 import MainHeader from "./components/MainHeader.vue";
+import axiosInstance from "./axios-config";
+import { AxiosResponse, AxiosError } from "axios";
 
 export default {
   name: "App",
@@ -20,6 +22,17 @@ export default {
   computed: {
     isLoginPage() {
       return this.$route.path === "/login";
+    },
+  },
+  methods: {
+    async fetchUserData() {
+      await axiosInstance.get(
+        "userdata/"
+      ).then(async (response: AxiosResponse) => {
+
+      }).catch((error: AxiosError) => {
+        console.log(error);
+      });
     },
   },
 };

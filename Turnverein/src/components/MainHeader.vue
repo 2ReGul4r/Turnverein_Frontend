@@ -24,11 +24,11 @@
         <v-divider></v-divider>
 
         <v-list density="compact" nav>
-          <v-list-item prepend-icon="mdi-list-box" title="Meine Kurse" value="myCourses"></v-list-item>
-          <v-list-item prepend-icon="mdi-list-box" title="Alle Kurse" value="allCourses"></v-list-item>
-          <v-list-item prepend-icon="mdi-account-edit" title="Profil bearbeien" value="profile"></v-list-item>
-          <v-list-item prepend-icon="mdi-account-group-outline" title="Trainer" value="trainer"></v-list-item>
-          <v-list-item prepend-icon="mdi-account-group-outline" title="Schüler" value="pupil"></v-list-item>
+          <v-list-item prepend-icon="mdi-clipboard-text-clock" title="Kurse"></v-list-item>
+          <v-list-item prepend-icon="mdi-account-group" title="Trainer"></v-list-item>
+          <v-list-item prepend-icon="mdi-crowd" title="Schüler"></v-list-item>
+          <v-list-item prepend-icon="mdi-account-edit" title="Profil bearbeien"></v-list-item>
+          <v-list-item prepend-icon="mdi-logout" title="Logout" @click="logout"></v-list-item>
         </v-list>
       </v-navigation-drawer>
       <v-main class="main" style="height: 100%">
@@ -39,25 +39,52 @@
 </template>
 
 <script lang="ts">
-import { useUserStore } from '../store/user';
-
-
+import { Trainer } from 'types';
+import axiosInstance from "../axios-config";
+import { AxiosResponse, AxiosError } from "axios";
+import router from '@/router';
 
 export default {
   name: "MainHeader",
   computed: {
     getUserTitle() {
-      const userStore = useUserStore();
-      if(!userStore.getUserData) {
+      if(!this.userData) {
         return ""
       }
-      return `${userStore.getUserData.first_name} ${userStore.getUserData.last_name}`
+      return `${this.userData.first_name} ${this.userData.last_name}`
     }
+  },
+  methods: {
+    async fetchUserData() {
+      await axiosInstance.get(
+        "userdata",
+        { headers: { "Authorization": `Token ${localStorage.getItem("token")}` }}
+      ).then(async (response: AxiosResponse) => {
+        this.userData = response.data.data;
+      }).catch((error: AxiosError) => {
+        console.log(error);
+      });
+    },
+    async logout() {
+      await axiosInstance.post(
+        "logout",
+        { "token": localStorage.getItem("token") }
+      ).then(async (response: AxiosResponse) => {
+        localStorage.removeItem("token");
+        router.push("/login")
+      }).catch((error: AxiosError) => {
+        console.log(error);
+      });
+    }
+  },
+  async mounted() {
+    await this.fetchUserData();
   },
   data () {
     return {
       drawer: true,
       rail: true,
+      userData: {} as Trainer,
     }
   },
 };

@@ -49,25 +49,22 @@
 </template>
 
 <script lang="ts">
-import axiosInstance from "../axios-config"
-import { AxiosResponse, AxiosError } from "axios"
-import router from "../router"
-import { useUserStore } from "../store/user"
+import axiosInstance from "../axios-config";
+import { AxiosResponse, AxiosError } from "axios";
+import router from "../router";
 export default {
     name: "Login",
     methods: {
         async login() {
-            const userStore = useUserStore();
             await axiosInstance.post(
-                "login/",
+                "login",
                 { "username": this.username, "password": this.password },
             ).then(async (response: AxiosResponse) => {
                 localStorage.setItem("token", response.data.token);
-                await userStore.fetchUserData(this.username);
                 router.push("/");
             }).catch((error: AxiosError) => {
                 console.log(error);
-            })
+            });
         },
     },
     data () {
