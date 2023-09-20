@@ -8,9 +8,10 @@
         permanent
       >
         <v-list-item
-          prepend-icon="mdi-account"
           :title="getUserTitle"
           nav
+          prepend-icon="mdi-account"
+          style="padding: 4px 16px;"
         >
           <template v-slot:append>
             <v-btn
@@ -28,7 +29,7 @@
           <v-list-item prepend-icon="mdi-account-group" title="Trainer"></v-list-item>
           <v-list-item prepend-icon="mdi-crowd" title="Schüler"></v-list-item>
           <v-list-item prepend-icon="mdi-account-edit" title="Profil bearbeien"></v-list-item>
-          <v-list-item prepend-icon="mdi-logout" title="Logout" @click="logout"></v-list-item>
+          <v-list-item prepend-icon="mdi-logout" title="Logout" @click="userStore.logout"></v-list-item>
         </v-list>
       </v-navigation-drawer>
       <v-main class="main" style="height: 100%">
@@ -39,52 +40,27 @@
 </template>
 
 <script lang="ts">
-import { Trainer } from 'types';
-import axiosInstance from "../axios-config";
-import { AxiosResponse, AxiosError } from "axios";
-import router from '@/router';
+import { useUserStore } from "../store/user";
+import { mapStores } from "pinia";
 
 export default {
   name: "MainHeader",
   computed: {
+    ...mapStores(useUserStore),
     getUserTitle() {
-      if(!this.userData) {
+      if(!this.userStore.userData) {
         return ""
       }
-      return `${this.userData.first_name} ${this.userData.last_name}`
-    }
-  },
-  methods: {
-    async fetchUserData() {
-      await axiosInstance.get(
-        "userdata",
-        { headers: { "Authorization": `Token ${localStorage.getItem("token")}` }}
-      ).then(async (response: AxiosResponse) => {
-        this.userData = response.data.data;
-      }).catch((error: AxiosError) => {
-        console.log(error);
-      });
-    },
-    async logout() {
-      await axiosInstance.post(
-        "logout",
-        { "token": localStorage.getItem("token") }
-      ).then(async (response: AxiosResponse) => {
-        localStorage.removeItem("token");
-        router.push("/login")
-      }).catch((error: AxiosError) => {
-        console.log(error);
-      });
+      return `${this.userStore.userData.first_name} ${this.userStore.userData.last_name}`
     }
   },
   async mounted() {
-    await this.fetchUserData();
+    await this.userStore.fetchUserData();
   },
   data () {
     return {
       drawer: true,
       rail: true,
-      userData: {} as Trainer,
     }
   },
 };

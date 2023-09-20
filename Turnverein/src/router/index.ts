@@ -2,6 +2,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import axiosInstance from "../axios-config";
 import { AxiosResponse, AxiosError } from "axios";
+import { useAppStore } from "@/store/app";
 
 const routes = [
   {
@@ -27,21 +28,29 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  if (!localStorage.getItem("token") && to.name !== "Login") {
-    console.log("redirected to login")
-    next({ name: "Login" });
-  } else if (localStorage.getItem("token") && to.name !== "Login") {
-      await axiosInstance.post(
-        "check-auth",
-        { "token": localStorage.getItem("token") }
-      ).then(async (response: AxiosResponse) => {
-        next();
-      }).catch((error: AxiosError) => {
-        localStorage.removeItem("token");
-        next({ name: "Login" });
-      });
+  const appStore = useAppStore();
+  appStore.showHeader = false;
+  if (!localStorage.getItem("token")) {
+    if (to.name !== "Login") {
+      next({ name: "Login" });
     } else {
-    next()
+      next();
+    }
+  } else {
+    await axiosInstance.post(
+      "check-auth",
+      { "token": localStorage.getItem("token") }
+    ).then(async (response: AxiosResponse) => {
+      appStore.showHeader = true;
+      if (to.name !== "Login") {
+        next();
+      } else {
+        next({ name: "Home" });
+      }
+    }).catch((error: AxiosError) => {
+      localStorage.removeItem("token");
+      next({ name: "Login" });
+    });
   }
 });
 

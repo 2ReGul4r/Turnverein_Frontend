@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <v-app>
-      <MainHeader v-if="!isLoginPage">
+      <MainHeader v-if="showHeader">
         <router-view/>
       </MainHeader>
       <router-view v-else/>
@@ -10,9 +10,9 @@
 </template>
 
 <script lang="ts">
+import { mapStores } from "pinia";
 import MainHeader from "./components/MainHeader.vue";
-import axiosInstance from "./axios-config";
-import { AxiosResponse, AxiosError } from "axios";
+import { useAppStore } from "./store/app";
 
 export default {
   name: "App",
@@ -20,20 +20,10 @@ export default {
     MainHeader,
   },
   computed: {
-    isLoginPage() {
-      return this.$route.path === "/login";
-    },
-  },
-  methods: {
-    async fetchUserData() {
-      await axiosInstance.get(
-        "userdata/"
-      ).then(async (response: AxiosResponse) => {
-
-      }).catch((error: AxiosError) => {
-        console.log(error);
-      });
-    },
+    ...mapStores(useAppStore),
+    showHeader() {
+      return this.appStore.shouldShowHeader;
+    }
   },
 };
 

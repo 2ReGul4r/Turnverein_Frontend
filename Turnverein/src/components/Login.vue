@@ -1,12 +1,13 @@
 <template>
     <div class="login_wrapper">
         <v-card
-            class="mx-auto"
+            :loading="loading"
+            class="login_card"
             max-width="360"
             title="Trainer Login"
         >
             <v-container>
-                <form v-on:submit.prevent="login">
+                <v-form @submit.prevent="login" id="login-form">
                     <v-text-field
                         v-model="username"
                         autocomplete="username"
@@ -22,7 +23,7 @@
                         label="Password"
                         variant="outlined"
                     />
-                </form>
+                </v-form>
                 <v-alert
                         v-if="showError"
                         @click:close="showError = false"
@@ -39,7 +40,7 @@
             <v-card-actions>
             <v-spacer></v-spacer>
 
-            <v-btn @click="login">
+            <v-btn @click="login" type="submit" form="login-form">
                 Login
                 <v-icon icon="mdi-chevron-right" end></v-icon>
             </v-btn>
@@ -56,15 +57,19 @@ export default {
     name: "Login",
     methods: {
         async login() {
+            this.loading = true;
             await axiosInstance.post(
                 "login",
                 { "username": this.username, "password": this.password },
             ).then(async (response: AxiosResponse) => {
+                this.showError = false;
                 localStorage.setItem("token", response.data.token);
                 router.push("/");
             }).catch((error: AxiosError) => {
+                this.showError = true;
                 console.log(error);
             });
+            this.loading = false;
         },
     },
     data () {
@@ -73,7 +78,20 @@ export default {
             password: "",
             showPassword: false,
             showError: false,
+            loading: false
         }
   },
 };
 </script>
+
+<style scoped>
+.login_wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 32px;
+}
+
+.login_card {
+    width: clamp(240px, 100%, 360px);
+}
+</style>
