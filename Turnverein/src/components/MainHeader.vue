@@ -11,7 +11,7 @@
           :title="getUserTitle"
           nav
           prepend-icon="mdi-account"
-          style="padding: 4px 16px;"
+          style="padding: 4px 16px"
         >
           <template v-slot:append>
             <v-btn
@@ -25,11 +25,24 @@
         <v-divider></v-divider>
 
         <v-list density="compact" nav>
-          <v-list-item prepend-icon="mdi-clipboard-text-clock" title="Kurse"></v-list-item>
-          <v-list-item prepend-icon="mdi-account-group" title="Trainer"></v-list-item>
+          <v-list-item
+            prepend-icon="mdi-clipboard-text-clock"
+            title="Kurse"
+          ></v-list-item>
+          <v-list-item
+            prepend-icon="mdi-account-group"
+            title="Trainer"
+          ></v-list-item>
           <v-list-item prepend-icon="mdi-crowd" title="Schüler"></v-list-item>
-          <v-list-item prepend-icon="mdi-account-edit" title="Profil bearbeien"></v-list-item>
-          <v-list-item prepend-icon="mdi-logout" title="Logout" @click="userStore.logout"></v-list-item>
+          <v-list-item
+            prepend-icon="mdi-account-edit"
+            title="Profil bearbeien"
+          ></v-list-item>
+          <v-list-item
+            prepend-icon="mdi-logout"
+            title="Logout"
+            @click="userStore.logout"
+          ></v-list-item>
         </v-list>
       </v-navigation-drawer>
       <v-main class="main" style="height: 100%">
@@ -48,20 +61,20 @@ export default {
   computed: {
     ...mapStores(useUserStore),
     getUserTitle() {
-      if(!this.userStore.userData) {
-        return ""
+      if (!this.userStore.userData) {
+        return "";
       }
-      return `${this.userStore.userData.first_name} ${this.userStore.userData.last_name}`
-    }
+      return `${this.userStore.userData.first_name} ${this.userStore.userData.last_name}`;
+    },
   },
   async mounted() {
     await this.userStore.fetchUserData();
   },
-  data () {
+  data() {
     return {
       drawer: true,
       rail: true,
-    }
+    };
   },
 };
 </script>

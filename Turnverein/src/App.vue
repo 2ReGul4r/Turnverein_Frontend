@@ -2,9 +2,9 @@
   <div id="app">
     <v-app>
       <MainHeader v-if="showHeader">
-        <router-view/>
+        <router-view />
       </MainHeader>
-      <router-view v-else/>
+      <router-view v-else />
     </v-app>
   </div>
 </template>
@@ -23,8 +23,7 @@ export default {
     ...mapStores(useAppStore),
     showHeader() {
       return this.appStore.shouldShowHeader;
-    }
+    },
   },
 };
-
 </script>
