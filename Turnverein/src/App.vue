@@ -2,7 +2,9 @@
   <div id="app">
     <v-app>
       <MainHeader v-if="showHeader">
-        <router-view />
+        <div style="padding: 32px;">
+          <router-view />
+        </div>
       </MainHeader>
       <router-view v-else />
     </v-app>

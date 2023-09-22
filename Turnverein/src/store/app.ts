@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { City, Member, Trainer, Sport, Coaching } from "types";
+import { City, Member, Trainer, Sport, Course } from "types";
 import axiosInstance from "../axios-config";
 import { AxiosResponse, AxiosError } from "axios";
 
@@ -9,7 +9,7 @@ export const useAppStore = defineStore("app", {
     memberList: [] as Member[],
     trainerList: [] as Trainer[],
     sportList: [] as Sport[],
-    coachingList: [] as Coaching[],
+    courseList: [] as Course[],
     showHeader: false as boolean,
   }),
 
@@ -18,7 +18,7 @@ export const useAppStore = defineStore("app", {
     getMemberList: (state) => state.memberList,
     getTrainerList: (state) => state.trainerList,
     getSportList: (state) => state.sportList,
-    getCoachingList: (state) => state.coachingList,
+    getCourseList: (state) => state.courseList,
     shouldShowHeader: (state) => state.showHeader,
   },
 

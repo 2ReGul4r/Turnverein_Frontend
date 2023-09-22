@@ -8,6 +8,10 @@ export function isEmail(value: string) {
 }
 
 export function noSymbols(value: string) {
-    const noSymbolsRegex = /[a-zA-Z]$/
+    const noSymbolsRegex = /[a-zA-Z]+$/
     return noSymbolsRegex.test(value) || "No special characters allowed";
+}
+
+export function minLengthFive(value: string) {
+    return value.length >= 5 || `Minimum length is 5 characters`
 }

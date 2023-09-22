@@ -5,6 +5,7 @@
         v-model="drawer"
         @click="rail = false"
         :rail="rail"
+        :style="{ position: 'fixed' }"
         permanent
       >
         <v-list-item
@@ -26,26 +27,34 @@
 
         <v-list density="compact" nav>
           <v-list-item
+            @click="navigate('/')"
+            :active="isActiveRoute('/')"
             prepend-icon="mdi-clipboard-text-clock"
-            title="Kurse"
+            title="My Courses"
           ></v-list-item>
           <v-list-item
+            :active="isActiveRoute('/course-list')"
             prepend-icon="mdi-account-group"
             title="Trainer"
           ></v-list-item>
-          <v-list-item prepend-icon="mdi-crowd" title="Schüler"></v-list-item>
           <v-list-item
-            prepend-icon="mdi-account-edit"
-            title="Profil bearbeien"
+            :active="isActiveRoute('/member')"
+            prepend-icon="mdi-crowd"
+            title="Students"
           ></v-list-item>
           <v-list-item
+            :active="isActiveRoute('/edit-profile')"
+            prepend-icon="mdi-account-edit"
+            title="Edit my profile"
+          ></v-list-item>
+          <v-list-item
+            @click="userStore.logout"
             prepend-icon="mdi-logout"
             title="Logout"
-            @click="userStore.logout"
           ></v-list-item>
         </v-list>
       </v-navigation-drawer>
-      <v-main class="main" style="height: 100%">
+      <v-main>
         <slot></slot>
       </v-main>
     </v-layout>
@@ -66,9 +75,20 @@ export default {
       }
       return `${this.userStore.userData.first_name} ${this.userStore.userData.last_name}`;
     },
+    isActiveRoute() {
+      return (route: string) => {
+        return this.$route.path === route;
+      }
+    }
+  },
+  methods: {
+    navigate(route: string) {
+      this.$router.push(route);
+    }
   },
   async mounted() {
     await this.userStore.fetchUserData();
+    console.log("userdata", this.userStore.userData);
   },
   data() {
     return {
@@ -78,10 +98,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.main {
-  display: flex;
-  margin: 32px;
-}
-</style>

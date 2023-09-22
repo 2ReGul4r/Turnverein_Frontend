@@ -54,7 +54,7 @@
 import axiosInstance from "../axios-config";
 import { AxiosResponse, AxiosError } from "axios";
 import router from "../router";
-import { isRequired, noSymbols } from "../validations"
+import { isRequired, noSymbols, minLengthFive } from "../validations"
 
 export default {
   name: "Login",
@@ -81,7 +81,7 @@ export default {
     showPassword: false,
     showError: false,
     loading: false,
-    usernameRules: [isRequired, noSymbols],
+    usernameRules: [isRequired, noSymbols, minLengthFive],
   }),
 };
 </script>

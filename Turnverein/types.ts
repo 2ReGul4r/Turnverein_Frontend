@@ -4,6 +4,7 @@ export interface City {
  }
     
 export interface Member {
+    id: number,
     first_name: string,
     last_name: string,
     birthday: Date | string,
@@ -13,6 +14,7 @@ export interface Member {
 }
 
 export interface Trainer {
+    id: number,
     first_name: string,
     last_name: string,
     user_name: string,
@@ -23,10 +25,28 @@ export interface Trainer {
 }
     
 export interface Sport {
+    id: number,
     name: string
 }
 
 export interface Coaching {
+    id: number,
     sport: Sport,
     trainer: Trainer
+}
+
+export interface CourseDate {
+    id: number,
+    course_length: number,
+    days: number,
+    hour: number,
+    minute: number
+}
+
+export interface Course {
+    id: number,
+    sport: Sport,
+    trainer: Trainer,
+    date: CourseDate,
+    hall: string
 }
