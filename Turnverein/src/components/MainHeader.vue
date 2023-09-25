@@ -9,6 +9,7 @@
         permanent
       >
         <v-list-item
+          @click="navigate('/profile')"
           :title="getUserTitle"
           nav
           prepend-icon="mdi-account"
@@ -22,9 +23,7 @@
             ></v-btn>
           </template>
         </v-list-item>
-
         <v-divider></v-divider>
-
         <v-list density="compact" nav>
           <v-list-item
             @click="navigate('/')"
@@ -33,17 +32,28 @@
             title="My Courses"
           ></v-list-item>
           <v-list-item
-            :active="isActiveRoute('/course-list')"
+            v-if="isStaffUser"
+            @click="navigate('/courses')"
+            :active="isActiveRoute('/courses')"
+            prepend-icon="mdi-rhombus-split"
+            title="All Courses"
+          ></v-list-item>
+          <v-list-item
+            v-if="isStaffUser"
+            @click="navigate('/trainer')"
+            :active="isActiveRoute('/trainer')"
             prepend-icon="mdi-account-group"
             title="Trainer"
           ></v-list-item>
           <v-list-item
+            @click="navigate('/member')"
             :active="isActiveRoute('/member')"
             prepend-icon="mdi-crowd"
             title="Students"
           ></v-list-item>
           <v-list-item
-            :active="isActiveRoute('/edit-profile')"
+            @click="navigate('/profile')"
+            :active="isActiveRoute('/profile')"
             prepend-icon="mdi-account-edit"
             title="Edit my profile"
           ></v-list-item>
@@ -54,7 +64,9 @@
           ></v-list-item>
         </v-list>
       </v-navigation-drawer>
-      <v-main>
+      <v-main
+        @click="rail = true"
+      >
         <slot></slot>
       </v-main>
     </v-layout>
@@ -74,6 +86,9 @@ export default {
         return "";
       }
       return `${this.userStore.userData.first_name} ${this.userStore.userData.last_name}`;
+    },
+    isStaffUser() {
+      return this.userStore.userData.is_staff;
     },
     isActiveRoute() {
       return (route: string) => {

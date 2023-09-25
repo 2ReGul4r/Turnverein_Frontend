@@ -19,6 +19,21 @@ const routes = [
         name: "Login",
         component: () => import("@/views/Login.vue"),
       },
+      {
+        path: "courses",
+        name: "Courses",
+        component: () => import("@/views/Courses.vue"),
+      },
+      {
+        path: "trainer",
+        name: "Trainer",
+        component: () => import("@/views/Trainer.vue"),
+      },
+      {
+        path: "member",
+        name: "Member",
+        component: () => import("@/views/Member.vue"),
+      },
     ],
   },
 ];
@@ -30,8 +45,8 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const appStore = useAppStore();
-  appStore.showHeader = false;
   if (!localStorage.getItem("token")) {
+    appStore.showHeader = false;
     if (to.name !== "Login") {
       next({ name: "Login" });
     } else {

@@ -1,17 +1,17 @@
 <template>
   <CardGrid>
     <template #cards>
-      <CourseCard 
-        v-for="course in courseData"
+      <TrainerCard
+        v-for="trainer in trainerData"
         class="course_card"
-        v-bind="course"
+        :trainer="trainer"
       />
     </template>
     <template #pagination>
       <v-pagination
-        v-if="getUserCoursePageCount > 1"
+        v-if="getTrainerDataPageCount > 1"
         v-model="page"
-        :length="getUserCoursePageCount"
+        :length="getTrainerDataPageCount"
         :style="getPaginationStyleWidth"
         class="card_grid_pagination"
         rounded="circle"
@@ -22,48 +22,51 @@
 
 <script lang="ts">
 import CardGrid from "@/components/CardGrid.vue";
-import CourseCard from "@/components/Cards/CourseCard.vue";
+import TrainerCard from "@/components/Cards/TrainerCard.vue";
 import { useUserStore } from "@/store/user";
 import { useAppStore } from "@/store/app";
 import { mapStores } from "pinia";
 
 export default {
-  name: "CourseGrid",
+  name: "TrainerView",
   components: {
-    CourseCard,
-    CardGrid
-},
+    CardGrid,
+    TrainerCard,
+  },
   computed: {
     ...mapStores(useAppStore, useUserStore),
-    courseData() {
-      return this.userStore.getUserCourses;
+    trainerData() {
+      return this.appStore.getTrainerList;
     },
-    getUserCoursePageCount() {
-      return this.userStore.getUserCoursePages;
+    getTrainerDataPageCount() {
+      return this.appStore.getTrainerListPages;
     },
     getPaginationStyleWidth() {
       const buttonWidth = 48;
-      const buttonPadding = 9.6
-      return {"width": (this.getUserCoursePageCount + 3) * (buttonWidth + buttonPadding)}
-    }
+      const buttonPadding = 9.6;
+      return {
+        width:
+          (this.getTrainerDataPageCount + 3) * (buttonWidth + buttonPadding),
+      };
+    },
   },
   methods: {
-    async updateCourseData() {
-      await this.userStore.fetchUserCourses(this.page);
-    }
+    async updateTrainerData() {
+      await this.appStore.fetchTrainer(this.page);
+    },
   },
   async mounted() {
-    await this.updateCourseData();
+    await this.updateTrainerData();
   },
   watch: {
     async page() {
-      await this.updateCourseData();
-    }
+      await this.updateTrainerData();
+    },
   },
   data() {
     return {
       page: 1,
-    }
-  }
+    };
+  },
 };
 </script>
