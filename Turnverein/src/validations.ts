@@ -8,7 +8,7 @@ export function isEmail(value: string) {
 }
 
 export function noSymbols(value: string) {
-    const noSymbolsRegex = /[a-zA-Z]+$/
+    const noSymbolsRegex = /^[a-zA-Z]+$/
     return noSymbolsRegex.test(value) || "No special characters allowed";
 }
 

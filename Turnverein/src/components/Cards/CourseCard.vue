@@ -25,8 +25,8 @@
       </v-chip>
     </v-chip-group>
     <v-spacer></v-spacer>
-    <v-card-actions>
-      <v-btn class="course_card_action" variant="tonal">Edit</v-btn>
+    <v-card-actions v-if="!hideActions">
+      <v-btn v-if="!hideEdit" class="course_card_action" variant="tonal">Edit</v-btn>
       <v-btn class="course_card_action" variant="tonal">Show students</v-btn>
     </v-card-actions>
   </v-card>
@@ -57,6 +57,12 @@ export default defineComponent({
       type: Number,
       default: 400,
     },
+    hideActions: {
+      type: Boolean
+    },
+    hideEdit: {
+      type: Boolean
+    }
   },
   computed: {
     getTitle() {

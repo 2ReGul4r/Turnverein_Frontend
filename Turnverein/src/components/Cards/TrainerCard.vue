@@ -8,16 +8,15 @@
     class="trainer_card d-flex flex-column"
     variant="tonal"
   >
-    <v-card-item>
+    <v-card-item prepend-icon="mdi-cake">
       {{ `Birthday: ${getBirthday}` }}
     </v-card-item>
-    <v-card-item>
-      {{ `Adress: ${trainer.street} ${trainer.house_number}` }}
+    <v-card-item prepend-icon="mdi-map-marker">
+      {{ `Address: ${trainer.street} ${trainer.house_number}` }}
     </v-card-item>
-    <v-card-item>
+    <v-card-item prepend-icon="mdi-home-city">
       {{ `City: ${trainer.postcode.postcode}, ${trainer.postcode.city}` }}
     </v-card-item>
-    <v-spacer></v-spacer>
   </v-card>
 </template>
 

@@ -1,20 +1,58 @@
 <template>
-  <div class="login_wrapper">
+  <div class="register_wrapper">
     <v-card
       :loading="loading"
-      class="login_card"
-      title="Trainer Login"
+      class="register_card"
+      title="Create Trainer-account"
       variant="tonal"
     >
       <v-container>
-        <v-form @submit.prevent="login" fast-fail id="login-form">
+        <v-form @submit.prevent="register" fast-fail id="register-form">
+          <v-text-field
+            v-model="first_name"
+            :rules="nameRules"
+            autocomplete="given-name"
+            class="stack"
+            label="Firstname"
+            variant="outlined"
+          />
+          <v-text-field
+            v-model="last_name"
+            :rules="nameRules"
+            autocomplete="family-name"
+            class="stack"
+            label="Lastname"
+            variant="outlined"
+          />
+          <v-text-field
+            v-model="street"
+            :rules="required"
+            autocomplete="street-address"
+            class="stack"
+            label="Lastname"
+            variant="outlined"
+          />
+          <v-text-field
+            v-model="house_number"
+            autocomplete="family-name"
+            class="stack"
+            label="Lastname"
+            variant="outlined"
+          />
           <v-text-field
             v-model="username"
             :rules="usernameRules"
             autocomplete="username"
             class="stack"
             label="Username"
-            prepend-inner-icon="mdi-account"
+            variant="outlined"
+          />
+          <v-text-field
+            v-model="username"
+            :rules="usernameRules"
+            autocomplete="username"
+            class="stack"
+            label="Username"
             variant="outlined"
           />
           <v-text-field
@@ -24,7 +62,6 @@
             :type="showPassword ? 'input' : 'password'"
             autocomplete="current-password"
             label="Password"
-            prepend-inner-icon="mdi-lock-outline"
             variant="outlined"
           />
         </v-form>
@@ -44,7 +81,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
 
-        <v-btn @click="login" type="submit" form="login-form">
+        <v-btn @click="register" type="submit" form="register-form">
           Login
           <v-icon icon="mdi-chevron-right" end></v-icon>
         </v-btn>
@@ -57,46 +94,44 @@
 import axiosInstance from "../axios-config";
 import { AxiosResponse, AxiosError } from "axios";
 import router from "../router";
-import { isRequired, noSymbols, minLengthFive } from "../validations"
+import { isRequired, noSymbols, minLengthFive } from "../validations";
 
 export default {
   name: "Login",
   methods: {
-    async login() {
+    async register() {
       this.loading = true;
-      await axiosInstance
-        .post("login", { username: this.username, password: this.password })
-        .then(async (response: AxiosResponse) => {
-          this.showError = false;
-          localStorage.setItem("token", response.data.token);
-          router.push("/");
-        })
-        .catch((error: AxiosError) => {
-          this.showError = true;
-          console.log(error);
-        });
+      //axios call
       this.loading = false;
     },
   },
   data: () => ({
+    first_name: "",
+    last_name: "",
+    street: "",
+    house_number: "",
+    city: "",
+    postcode: "",
     username: "",
     password: "",
     showPassword: false,
     showError: false,
     loading: false,
     usernameRules: [isRequired, noSymbols, minLengthFive],
+    nameRules: [isRequired, noSymbols],
+    required: [isRequired],
   }),
 };
 </script>
 
 <style scoped>
-.login_wrapper {
+.register_wrapper {
   display: flex;
   justify-content: center;
   margin: 32px;
 }
 
-.login_card {
+.register_card {
   width: clamp(240px, 100%, 360px);
 }
 

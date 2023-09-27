@@ -5,6 +5,7 @@
         v-for="course in courseData"
         class="course_card"
         v-bind="course"
+        hideEdit
       />
     </template>
     <template #pagination>
@@ -13,7 +14,6 @@
         v-model="page"
         :length="getUserCoursePageCount"
         :style="getPaginationStyleWidth"
-        class="card_grid_pagination"
         rounded="circle"
       />
     </template>

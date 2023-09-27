@@ -1,4 +1,18 @@
 <template>
+  <v-form @submit.prevent="updateTrainerData">
+    <v-text-field
+      v-model="searchText"
+      @click:append-inner="updateTrainerData"
+      @click:append="clearSearchBar"
+      :loading="searchLoading"
+      append-inner-icon="mdi-magnify"
+      append-icon="mdi-close-circle-outline"
+      class="searchBar"
+      label="Search"
+      single-line
+      variant="outlined"
+    />
+  </v-form>
   <CardGrid>
     <template #cards>
       <TrainerCard
@@ -13,7 +27,6 @@
         v-model="page"
         :length="getTrainerDataPageCount"
         :style="getPaginationStyleWidth"
-        class="card_grid_pagination"
         rounded="circle"
       />
     </template>
@@ -31,8 +44,8 @@ export default {
   name: "TrainerView",
   components: {
     CardGrid,
-    TrainerCard,
-  },
+    TrainerCard
+},
   computed: {
     ...mapStores(useAppStore, useUserStore),
     trainerData() {
@@ -52,8 +65,14 @@ export default {
   },
   methods: {
     async updateTrainerData() {
-      await this.appStore.fetchTrainer(this.page);
+      this.searchLoading = true;
+      await this.appStore.fetchTrainer(this.page, this.searchText);
+      this.searchLoading = false;
     },
+    async clearSearchBar() {
+      this.searchText = "";
+      await this.updateTrainerData();
+    }
   },
   async mounted() {
     await this.updateTrainerData();
@@ -66,7 +85,15 @@ export default {
   data() {
     return {
       page: 1,
+      searchText: "",
+      searchLoading: false
     };
   },
 };
 </script>
+
+<style scoped>
+.searchBar{
+  margin: 16px;
+}
+</style>

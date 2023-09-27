@@ -43,11 +43,11 @@ export const useAppStore = defineStore("app", {
           console.log(error);
         });
     },
-    async fetchTrainer(page: number) {
+    async fetchTrainer(page: number, name: string = "") {
       await axiosInstance
         .get("trainer", {
           headers: { Authorization: `Token ${localStorage.getItem("token")}` },
-          params: { page: page },
+          params: { page: page, name: name },
         })
         .then((response: AxiosResponse) => {
           this.trainerList = response.data.data;

@@ -7,16 +7,15 @@
     class="member_card d-flex flex-column"
     variant="tonal"
   >
-    <v-card-item>
+    <v-card-item prepend-icon="mdi-cake">
       {{ `Birthday: ${getBirthday}` }}
     </v-card-item>
-    <v-card-item>
-      {{ `Adress: ${member.street} ${member.house_number}` }}
+    <v-card-item prepend-icon="mdi-map-marker">
+      {{ `Address: ${member.street} ${member.house_number}` }}
     </v-card-item>
-    <v-card-item>
+    <v-card-item prepend-icon="mdi-home-city">
       {{ `City: ${member.postcode.postcode}, ${member.postcode.city}` }}
     </v-card-item>
-    <v-spacer></v-spacer>
   </v-card>
 </template>
 

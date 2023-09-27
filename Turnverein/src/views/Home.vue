@@ -13,7 +13,6 @@
         v-model="page"
         :length="getUserCoursePageCount"
         :style="getPaginationStyleWidth"
-        class="card_grid_pagination"
         rounded="circle"
       />
     </template>
