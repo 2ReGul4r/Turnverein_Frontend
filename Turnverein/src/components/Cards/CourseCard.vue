@@ -33,7 +33,7 @@
               `${item.member.first_name} ${item.member.last_name}`
             }}</v-list-item-title>
             <template v-slot:append>
-              <v-btn @click="removeMember" rounded variant="tonal">
+              <v-btn rounded variant="tonal">
                 <v-icon>mdi-delete</v-icon>
                 <v-dialog
                   v-model="removeMemberDialog"
@@ -45,7 +45,7 @@
                       {{ `Are you sure you want to remove ${item.member.first_name} ${item.member.last_name} from ${getTitle}?` }}
                     </v-card-text>
                     <v-card-actions>
-                      <v-btn @click="deleteParticipant" class="course_card_action" variant="tonal">Yes</v-btn>
+                      <v-btn @click="deleteParticipant(item.id)" class="course_card_action" variant="tonal">Yes</v-btn>
                       <v-btn @click="removeMemberDialog = false" class="course_card_action" variant="tonal">No</v-btn>
                     </v-card-actions>
                   </v-card>
@@ -157,9 +157,11 @@ export default defineComponent({
         .catch((error: AxiosError) => {
           console.log(error);
         });
+      this.checkForEmptyMemberList();
       this.loading = false;
     },
     async deleteParticipant(participantId: number) {
+      console.log(participantId);
       this.loading = true;
       await axiosInstance
         .delete("participant", {
@@ -181,7 +183,11 @@ export default defineComponent({
       }
       this.showMember = !this.showMember;
     },
-    async removeMember() {},
+    checkForEmptyMemberList() {
+      if (!this.memberList.length) {
+         this.showMember = false;
+      }
+    }
   },
   mounted() {
     this.fetchMember();
