@@ -51,3 +51,9 @@ export interface Course {
     date: CourseDate,
     hall: string
 }
+
+export interface Participant {
+    id: number,
+    course: number | Course,
+    member: Member,
+}
