@@ -58,9 +58,8 @@
     </div>
     <v-spacer></v-spacer>
     <v-card-actions v-if="!hideActions">
-      <v-btn v-if="!hideEdit" class="course_card_action" variant="tonal">Edit</v-btn>
+      <v-btn v-if="showMember && !showMemberListButton" class="course_card_action" variant="tonal">Edit</v-btn>
       <v-btn
-        v-if="showMemberListButton"
         @click="toggleMemberList"
         class="course_card_action"
         variant="tonal"
@@ -215,6 +214,7 @@ export default defineComponent({
 
 .course_card_chip {
   margin: 4px;
+  pointer-events: none;
 }
 
 .course_card_action {
