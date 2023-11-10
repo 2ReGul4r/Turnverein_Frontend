@@ -17,6 +17,7 @@
     <template #cards>
       <TrainerCard
         v-for="trainer in trainerData"
+        :key="trainer.id"
         class="course_card"
         :trainer="trainer"
       />
@@ -44,8 +45,8 @@ export default {
   name: "TrainerView",
   components: {
     CardGrid,
-    TrainerCard
-},
+    TrainerCard,
+  },
   computed: {
     ...mapStores(useAppStore, useUserStore),
     trainerData() {
@@ -72,7 +73,7 @@ export default {
     async clearSearchBar() {
       this.searchText = "";
       await this.updateTrainerData();
-    }
+    },
   },
   async mounted() {
     await this.updateTrainerData();
@@ -86,14 +87,14 @@ export default {
     return {
       page: 1,
       searchText: "",
-      searchLoading: false
+      searchLoading: false,
     };
   },
 };
 </script>
 
 <style scoped>
-.searchBar{
+.searchBar {
   margin: 16px;
 }
 </style>

@@ -25,21 +25,6 @@
             variant="outlined"
           />
           <v-text-field
-            v-model="street"
-            :rules="required"
-            autocomplete="street-address"
-            class="stack"
-            label="Lastname"
-            variant="outlined"
-          />
-          <v-text-field
-            v-model="house_number"
-            autocomplete="family-name"
-            class="stack"
-            label="Lastname"
-            variant="outlined"
-          />
-          <v-text-field
             v-model="username"
             :rules="usernameRules"
             autocomplete="username"
@@ -47,14 +32,43 @@
             label="Username"
             variant="outlined"
           />
-          <v-text-field
-            v-model="username"
-            :rules="usernameRules"
-            autocomplete="username"
-            class="stack"
-            label="Username"
-            variant="outlined"
-          />
+          <v-row>
+            <v-text-field
+              v-model="street"
+              :rules="required"
+              autocomplete="street-address"
+              class="v-col-7"
+              label="Street"
+              variant="outlined"
+            />
+            <v-text-field
+              v-model="house_number"
+              :rules="nameRules"
+              autocomplete="house-number"
+              class="v-col-auto"
+              label="House number"
+              variant="outlined"
+            />
+          </v-row>
+          <v-row>
+            <v-text-field
+              v-model="city"
+              :rules="required"
+              autocomplete="city"
+              class="stack v-col-7"
+              label="City"
+              variant="outlined"
+            />
+            <v-text-field
+              v-model="postcode"
+              :rules="postcodeRules"
+              autocomplete="postcode"
+              class="stack v-col-auto"
+              label="Postcode"
+              maxlength="5"
+              variant="outlined"
+            />
+          </v-row>
           <v-text-field
             v-model="password"
             @click:append-inner="showPassword = !showPassword"
@@ -82,7 +96,7 @@
         <v-spacer></v-spacer>
 
         <v-btn @click="register" type="submit" form="register-form">
-          Login
+          Register
           <v-icon icon="mdi-chevron-right" end></v-icon>
         </v-btn>
       </v-card-actions>
@@ -94,16 +108,44 @@
 import axiosInstance from "../axios-config";
 import { AxiosResponse, AxiosError } from "axios";
 import router from "../router";
-import { isRequired, noSymbols, minLengthFive } from "../validations";
+import { 
+  isRequired,
+  noSymbols,
+  minLengthFive,
+  onlyDigits,
+  fiveLength,
+} from "../validations";
 
 export default {
   name: "Login",
   methods: {
     async register() {
       this.loading = true;
-      //axios call
+      await axiosInstance
+        .post("register", { 
+          ...this.buildDataJson(),
+        })
+        .then(async (response: AxiosResponse) => {
+          
+        })
+        .catch((error: AxiosError) => {
+          this.showError = true;
+          console.log(error);
+        });
       this.loading = false;
     },
+    buildDataJson() {
+      return {
+        "first_name": this.first_name,
+        "last_name": this.last_name,
+        "street": this.street,
+        "house_number": this.house_number,
+        "city": this.city,
+        "postcode": this.postcode,
+        "username": this.username,
+        "password": this.password,
+      }
+    }
   },
   data: () => ({
     first_name: "",
@@ -119,6 +161,7 @@ export default {
     loading: false,
     usernameRules: [isRequired, noSymbols, minLengthFive],
     nameRules: [isRequired, noSymbols],
+    postcodeRules: [isRequired, onlyDigits, fiveLength],
     required: [isRequired],
   }),
 };
@@ -132,10 +175,14 @@ export default {
 }
 
 .register_card {
-  width: clamp(240px, 100%, 360px);
+  width: clamp(240px, 100%, 480px);
 }
 
 .stack {
   margin-bottom: 16px;
+}
+
+.v-row + .v-row {
+  margin-top: unset;
 }
 </style>

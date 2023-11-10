@@ -19,6 +19,7 @@ export const useUserStore = defineStore("user", {
 
   actions: {
     async fetchUserData() {
+      console.log('userdata');
       await axiosInstance
         .get("userdata", {
           headers: { Authorization: `Token ${localStorage.getItem("token")}` },
@@ -29,11 +30,27 @@ export const useUserStore = defineStore("user", {
         .catch((error: AxiosError) => {
           console.log(error);
         });
+      console.log('userdata fertig');
+    },
+    async login(username: string, password: string) {
+      await axiosInstance
+        .post("login", { username: username, password: password })
+        .then(async (response: AxiosResponse) => {
+          localStorage.setItem("token", response.data.token);
+          this.userData = response.data.userdata;
+          router.push("/");
+        })
+        .catch((error: AxiosError) => {
+          console.log(error);
+          return 1
+        });
+        return 0
     },
     async logout() {
       await axiosInstance
         .post("logout", { token: localStorage.getItem("token") })
         .then(async (response: AxiosResponse) => {
+          this.userData = {} as Trainer;
           await localStorage.removeItem("token");
           router.push("/login");
         })
@@ -55,6 +72,7 @@ export const useUserStore = defineStore("user", {
         .catch((error: AxiosError) => {
           console.log(error);
         });
+        console.log('params fertig', this.getUserData.id, page)
     },
   },
 });

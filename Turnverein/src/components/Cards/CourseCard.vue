@@ -26,39 +26,62 @@
           {{ day }}
         </v-chip>
       </v-chip-group>
-      <v-virtual-scroll v-else :items="memberList" item-height="50">
-        <template v-slot:default="{ item }">
-          <v-list-item>
-            <v-list-item-title>{{
-              `${item.member.first_name} ${item.member.last_name}`
-            }}</v-list-item-title>
-            <template v-slot:append>
-              <v-btn rounded variant="tonal">
-                <v-icon>mdi-delete</v-icon>
-                <v-dialog
-                  v-model="removeMemberDialog"
-                  activator="parent"
-                  width="auto"
-                >
-                  <v-card :loading="loading">
-                    <v-card-text>
-                      {{ `Are you sure you want to remove ${item.member.first_name} ${item.member.last_name} from ${getTitle}?` }}
-                    </v-card-text>
-                    <v-card-actions>
-                      <v-btn @click="deleteParticipant(item.id)" class="course_card_action" variant="tonal">Yes</v-btn>
-                      <v-btn @click="removeMemberDialog = false" class="course_card_action" variant="tonal">No</v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
-              </v-btn>
-            </template>
-          </v-list-item>
-        </template>
-      </v-virtual-scroll>
+      <div v-else>
+        <v-virtual-scroll
+          v-if="!isEmptyMemberList"
+          :items="memberList"
+          item-height="50"
+        >
+          <template v-slot:default="{ item }">
+            <v-list-item>
+              <v-list-item-title>
+                {{ `${item.member.first_name} ${item.member.last_name}` }}
+              </v-list-item-title>
+              <template v-slot:append>
+                <v-btn rounded variant="tonal">
+                  <v-icon>mdi-delete</v-icon>
+                  <v-dialog
+                    v-model="removeMemberDialog"
+                    activator="parent"
+                    width="auto"
+                  >
+                    <v-card :loading="loading">
+                      <v-card-text>
+                        {{ `Are you sure you want to remove ${item.member.first_name} ${item.member.last_name} from ${getTitle}?` }}
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-btn
+                          @click="deleteParticipant(item.id)"
+                          class="course_card_action"
+                          variant="tonal"
+                          >Yes</v-btn
+                        >
+                        <v-btn
+                          @click="removeMemberDialog = false"
+                          class="course_card_action"
+                          variant="tonal"
+                          >No</v-btn
+                        >
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                </v-btn>
+              </template>
+            </v-list-item>
+          </template>
+        </v-virtual-scroll>
+        <v-list-item> 
+          <v-btn @click="" block rounded variant="tonal">
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+        </v-list-item>
+      </div>
     </div>
     <v-spacer></v-spacer>
     <v-card-actions v-if="!hideActions">
-      <v-btn v-if="showMember && !showMemberListButton" class="course_card_action" variant="tonal">Edit</v-btn>
+      <v-btn v-if="!hideEdit" class="course_card_action" variant="tonal"
+        >Edit</v-btn
+      >
       <v-btn
         @click="toggleMemberList"
         class="course_card_action"
@@ -137,8 +160,8 @@ export default defineComponent({
     getComputedStyle() {
       return { "min-width": this.width + "px" };
     },
-    showMemberListButton() {
-      return !!this.memberList.length;
+    isEmptyMemberList() {
+      return !this.memberList.length;
     },
   },
   methods: {
@@ -156,7 +179,6 @@ export default defineComponent({
         .catch((error: AxiosError) => {
           console.log(error);
         });
-      this.checkForEmptyMemberList();
       this.loading = false;
     },
     async deleteParticipant(participantId: number) {
@@ -182,14 +204,6 @@ export default defineComponent({
       }
       this.showMember = !this.showMember;
     },
-    checkForEmptyMemberList() {
-      if (!this.memberList.length) {
-         this.showMember = false;
-      }
-    }
-  },
-  mounted() {
-    this.fetchMember();
   },
   data() {
     return {

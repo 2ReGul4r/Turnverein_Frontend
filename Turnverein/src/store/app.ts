@@ -29,11 +29,11 @@ export const useAppStore = defineStore("app", {
   },
 
   actions: {
-    async fetchMember(page: number) {
+    async fetchMember(page: number, name: string = "") {
       await axiosInstance
         .get("member", {
           headers: { Authorization: `Token ${localStorage.getItem("token")}` },
-          params: { page: page },
+          params: { page: page, name: name },
         })
         .then((response: AxiosResponse) => {
           this.memberList = response.data.data;

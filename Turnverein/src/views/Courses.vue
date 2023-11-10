@@ -3,6 +3,7 @@
     <template #cards>
       <CourseCard
         v-for="course in courseData"
+        :key="course.id"
         class="course_card"
         v-bind="course"
         hideEdit
@@ -27,7 +28,7 @@ import { useAppStore } from "@/store/app";
 import { mapStores } from "pinia";
 
 export default {
-  name: "CourseGrid",
+  name: "CoursesPage",
   components: {
     CardGrid,
     CourseCard,

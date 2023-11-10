@@ -1,8 +1,23 @@
 <template>
+  <v-form @submit.prevent="updateMemberData">
+    <v-text-field
+      v-model="searchText"
+      @click:append-inner="updateMemberData"
+      @click:append="clearSearchBar"
+      :loading="searchLoading"
+      append-inner-icon="mdi-magnify"
+      append-icon="mdi-close-circle-outline"
+      class="searchBar"
+      label="Search"
+      single-line
+      variant="outlined"
+    />
+  </v-form>
   <CardGrid>
     <template #cards>
       <MemberCard
         v-for="member in memberData"
+        :key="member.id"
         class="course_card"
         :member="member"
       />
@@ -27,7 +42,7 @@ import { useAppStore } from "@/store/app";
 import { mapStores } from "pinia";
 
 export default {
-  name: "MemberView",
+  name: "MemberPage",
   components: {
     CardGrid,
     MemberCard,
@@ -51,7 +66,13 @@ export default {
   },
   methods: {
     async updateMemberData() {
-      await this.appStore.fetchMember(this.page);
+      this.searchLoading = true;
+      await this.appStore.fetchMember(this.page, this.searchText);
+      this.searchLoading = false;
+    },
+    async clearSearchBar() {
+      this.searchText = "";
+      await this.updateMemberData();
     },
   },
   async mounted() {
@@ -65,7 +86,15 @@ export default {
   data() {
     return {
       page: 1,
+      searchText: "",
+      searchLoading: false,
     };
   },
 };
 </script>
+
+<style scoped>
+.searchBar {
+  margin: 16px;
+}
+</style>

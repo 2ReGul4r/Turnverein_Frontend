@@ -3,6 +3,7 @@
     <template #cards>
       <CourseCard 
         v-for="course in courseData"
+        :key="`course-${course.id}`"
         class="course_card"
         v-bind="course"
       />
@@ -27,7 +28,7 @@ import { useAppStore } from "@/store/app";
 import { mapStores } from "pinia";
 
 export default {
-  name: "CourseGrid",
+  name: "MyCoursesPage",
   components: {
     CourseCard,
     CardGrid
@@ -44,20 +45,15 @@ export default {
       const buttonWidth = 48;
       const buttonPadding = 9.6
       return {"width": (this.getUserCoursePageCount + 3) * (buttonWidth + buttonPadding)}
-    }
-  },
-  methods: {
-    async updateCourseData() {
-      await this.userStore.fetchUserCourses(this.page);
-    }
+    },
   },
   async mounted() {
-    await this.updateCourseData();
+    await this.userStore.fetchUserCourses(this.page);
   },
   watch: {
     async page() {
-      await this.updateCourseData();
-    }
+      await this.userStore.fetchUserCourses(this.page);
+    },
   },
   data() {
     return {

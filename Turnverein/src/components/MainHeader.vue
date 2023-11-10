@@ -58,6 +58,12 @@
             title="Edit my profile"
           ></v-list-item>
           <v-list-item
+            @click="navigate('/register')"
+            :active="isActiveRoute('/register')"
+            prepend-icon="mdi-account-plus"
+            title="Register new Trainer"
+          ></v-list-item>
+          <v-list-item
             @click="userStore.logout"
             prepend-icon="mdi-logout"
             title="Logout"
@@ -101,9 +107,8 @@ export default {
       this.$router.push(route);
     }
   },
-  async mounted() {
+  async created() {
     await this.userStore.fetchUserData();
-    console.log("userdata", this.userStore.userData);
   },
   data() {
     return {

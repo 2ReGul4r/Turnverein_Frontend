@@ -54,27 +54,19 @@
 </template>
 
 <script lang="ts">
-import axiosInstance from "../axios-config";
-import { AxiosResponse, AxiosError } from "axios";
-import router from "../router";
 import { isRequired, noSymbols, minLengthFive } from "../validations"
+import { useUserStore } from "@/store/user";
+import { mapStores } from "pinia";
 
 export default {
   name: "Login",
+  computed: {
+    ...mapStores(useUserStore),
+  },
   methods: {
     async login() {
       this.loading = true;
-      await axiosInstance
-        .post("login", { username: this.username, password: this.password })
-        .then(async (response: AxiosResponse) => {
-          this.showError = false;
-          localStorage.setItem("token", response.data.token);
-          router.push("/");
-        })
-        .catch((error: AxiosError) => {
-          this.showError = true;
-          console.log(error);
-        });
+      this.showError = !!(await this.userStore.login(this.username, this.password));
       this.loading = false;
     },
   },
@@ -97,7 +89,7 @@ export default {
 }
 
 .login_card {
-  width: clamp(240px, 100%, 360px);
+  width: clamp(240px, 100%, 480px);
 }
 
 .stack {
