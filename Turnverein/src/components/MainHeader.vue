@@ -107,9 +107,6 @@ export default {
       this.$router.push(route);
     }
   },
-  async created() {
-    await this.userStore.fetchUserData();
-  },
   data() {
     return {
       drawer: true,

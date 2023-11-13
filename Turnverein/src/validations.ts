@@ -20,6 +20,10 @@ export function fiveLength(value: string) {
   return value.length == 5 || "Length is 5 chars"
 }
 
+export function minLengthEight(value: string) {
+  return value.length >= 8 || "Minimum length is 8 chars"
+}
+
 export function onlyDigits(value: string) {
   const noSymbolsRegex = /^[0-9]+$/
   return noSymbolsRegex.test(value) || "Only digit chars";

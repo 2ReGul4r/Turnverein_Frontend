@@ -15,6 +15,7 @@
 import { mapStores } from "pinia";
 import MainHeader from "./components/MainHeader.vue";
 import { useAppStore } from "./store/app";
+import { useUserStore } from "./store/user";
 
 export default {
   name: "App",
@@ -22,10 +23,15 @@ export default {
     MainHeader,
   },
   computed: {
-    ...mapStores(useAppStore),
+    ...mapStores(useAppStore, useUserStore),
     showHeader() {
       return this.appStore.shouldShowHeader;
     },
+  },
+  mounted() {
+    if(!this.userStore.userData.id && localStorage.getItem("token") !== null) {
+      this.userStore.fetchUserData();
+    }
   },
 };
 </script>

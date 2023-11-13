@@ -42,21 +42,22 @@ export const useUserStore = defineStore("user", {
         })
         .catch((error: AxiosError) => {
           console.log(error);
-          return 1
+          return 0
         });
-        return 0
+        return 1
     },
     async logout() {
       await axiosInstance
         .post("logout", { token: localStorage.getItem("token") })
         .then(async (response: AxiosResponse) => {
-          this.userData = {} as Trainer;
+          await this.$reset();
           await localStorage.removeItem("token");
-          router.push("/login");
         })
         .catch((error: AxiosError) => {
           console.log(error);
         });
+        //TO-DO investigate why we need a reload and a push does not work.
+        router.go(0);
     },
     async fetchUserCourses(page: number = 1) {
       await axiosInstance
@@ -65,14 +66,13 @@ export const useUserStore = defineStore("user", {
           params: { trainer: this.getUserData.id, page: page },
         })
         .then((response: AxiosResponse) => {
-          console.log(response.data)
           this.userCourses = response.data.data;
           this.userCoursePages = response.data.page_count;
         })
         .catch((error: AxiosError) => {
           console.log(error);
         });
-        console.log('params fertig', this.getUserData.id, page)
     },
   },
+  persist: true,
 });

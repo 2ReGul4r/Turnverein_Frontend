@@ -21,6 +21,7 @@
             v-model="password"
             @click:append-inner="showPassword = !showPassword"
             :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :rules="passwordRules"
             :type="showPassword ? 'input' : 'password'"
             autocomplete="current-password"
             label="Password"
@@ -54,7 +55,7 @@
 </template>
 
 <script lang="ts">
-import { isRequired, noSymbols, minLengthFive } from "../validations"
+import { isRequired, noSymbols, minLengthFive, minLengthEight } from "../validations"
 import { useUserStore } from "@/store/user";
 import { mapStores } from "pinia";
 
@@ -66,7 +67,7 @@ export default {
   methods: {
     async login() {
       this.loading = true;
-      this.showError = !!(await this.userStore.login(this.username, this.password));
+      this.showError = !(await this.userStore.login(this.username, this.password));
       this.loading = false;
     },
   },
@@ -77,6 +78,7 @@ export default {
     showError: false,
     loading: false,
     usernameRules: [isRequired, noSymbols, minLengthFive],
+    passwordRules: [isRequired, minLengthEight]
   }),
 };
 </script>
