@@ -57,3 +57,15 @@ export interface Participant {
     course: number | Course,
     member: Member,
 }
+
+export interface TrainerRegister {
+    first_name: string,
+    last_name: string,
+    username: string,
+    birthday: Date | string,
+    street: string,
+    house_number: string,
+    city: string,
+    postcode: number,
+    password: string,
+  }
