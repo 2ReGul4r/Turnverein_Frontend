@@ -19,9 +19,8 @@ export const useUserStore = defineStore("user", {
 
   actions: {
     async fetchUserData() {
-      console.log('userdata');
       await axiosInstance
-        .get("userdata", {
+        .get("trainer", {
           headers: { Authorization: `Token ${localStorage.getItem("token")}` },
         })
         .then((response: AxiosResponse) => {
@@ -56,7 +55,7 @@ export const useUserStore = defineStore("user", {
         .catch((error: AxiosError) => {
           console.log(error);
         });
-        //TO-DO investigate why we need a reload and a push does not work.
+        //TODO: investigate why we need a reload and a push does not work.
         router.go(0);
     },
     async fetchUserCourses(page: number = 1) {
