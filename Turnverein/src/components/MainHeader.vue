@@ -68,12 +68,12 @@
             prepend-icon="mdi-logout"
             title="Logout"
           ></v-list-item>
-        </v-list>
+        </v-list>ubmit
       </v-navigation-drawer>
       <v-main
         @click="rail = true"
       >
-        <slot></slot>
+        <slot/>
       </v-main>
     </v-layout>
   </v-card>

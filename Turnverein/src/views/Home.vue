@@ -1,11 +1,12 @@
 <template>
   <CardGrid>
     <template #cards>
-      <CourseCard 
+      <CourseCard
         v-for="course in courseData"
         :key="`course-${course.id}`"
         class="course_card"
         v-bind="course"
+        :page="this.page"
       />
     </template>
     <template #pagination>

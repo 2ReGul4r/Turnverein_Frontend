@@ -70,7 +70,7 @@
             </v-list-item>
           </template>
         </v-virtual-scroll>
-        <v-list-item> 
+        <v-list-item>
           <v-btn @click="" block rounded variant="tonal">
             <v-icon>mdi-plus</v-icon>
           </v-btn>
@@ -79,9 +79,10 @@
     </div>
     <v-spacer></v-spacer>
     <v-card-actions v-if="!hideActions">
-      <v-btn v-if="!hideEdit" class="course_card_action" variant="tonal"
-        >Edit</v-btn
-      >
+        <v-btn v-if="!hideEdit" class="course_card_action" variant="tonal">
+            Edit
+          <CourseEditPopup :id="id" :hall="hall" :date="date" :trainer="trainer" :sport="sport" :page="page"/>
+        </v-btn>
       <v-btn
         @click="toggleMemberList"
         class="course_card_action"
@@ -98,8 +99,10 @@ import axiosInstance from "@/axios-config";
 import { AxiosError, AxiosResponse } from "axios";
 import { Participant } from "types";
 import { defineComponent } from "vue";
+import CourseEditPopup from "@/components/CourseEditPopup.vue";
 export default defineComponent({
   name: "CourseCard",
+  components: {CourseEditPopup},
   props: {
     id: {
       type: Number,
@@ -129,6 +132,10 @@ export default defineComponent({
     },
     hideEdit: {
       type: Boolean,
+    },
+    page: {
+      type: Number,
+      required: true,
     },
   },
   computed: {

@@ -95,7 +95,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
 
-        <v-btn @click="register" type="submit" form="register-form">
+        <v-btn type="submit" form="register-form">
           Register
           <v-icon icon="mdi-chevron-right" end></v-icon>
         </v-btn>
@@ -108,7 +108,7 @@
 import axiosInstance from "../axios-config";
 import { AxiosResponse, AxiosError } from "axios";
 import router from "../router";
-import { 
+import {
   isRequired,
   noSymbols,
   minLengthFive,
@@ -122,11 +122,11 @@ export default {
     async register() {
       this.loading = true;
       await axiosInstance
-        .post("register", { 
+        .post("register", {
           ...this.buildDataJson(),
         })
         .then(async (response: AxiosResponse) => {
-          
+
         })
         .catch((error: AxiosError) => {
           this.showError = true;
