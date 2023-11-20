@@ -11,9 +11,10 @@
 
 <style scoped>
 .card_grid_wrapper {
+  column-gap: 16px;
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-around;
+  justify-content: space-evenly;
   margin-bottom: 32px;
   row-gap: 16px;
 }
