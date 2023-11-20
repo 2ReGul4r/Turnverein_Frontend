@@ -4,9 +4,9 @@
       <CourseCard
         v-for="course in courseData"
         :key="`course-${course.id}`"
+        :page="page"
         class="course_card"
         v-bind="course"
-        :page="this.page"
       />
     </template>
     <template #pagination>
@@ -32,8 +32,8 @@ export default {
   name: "MyCoursesPage",
   components: {
     CourseCard,
-    CardGrid
-},
+    CardGrid,
+  },
   computed: {
     ...mapStores(useAppStore, useUserStore),
     courseData() {
@@ -44,8 +44,11 @@ export default {
     },
     getPaginationStyleWidth() {
       const buttonWidth = 48;
-      const buttonPadding = 9.6
-      return {"width": (this.getUserCoursePageCount + 3) * (buttonWidth + buttonPadding)}
+      const buttonPadding = 9.6;
+      return {
+        width:
+          (this.getUserCoursePageCount + 3) * (buttonWidth + buttonPadding),
+      };
     },
   },
   async mounted() {
@@ -59,7 +62,7 @@ export default {
   data() {
     return {
       page: 1,
-    }
-  }
+    };
+  },
 };
 </script>

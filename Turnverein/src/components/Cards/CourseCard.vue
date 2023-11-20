@@ -47,7 +47,9 @@
                   >
                     <v-card :loading="loading">
                       <v-card-text>
-                        {{ `Are you sure you want to remove ${item.member.first_name} ${item.member.last_name} from ${getTitle}?` }}
+                        {{
+                          `Are you sure you want to remove ${item.member.first_name} ${item.member.last_name} from ${getTitle}?`
+                        }}
                       </v-card-text>
                       <v-card-actions>
                         <v-btn
@@ -79,10 +81,17 @@
     </div>
     <v-spacer></v-spacer>
     <v-card-actions v-if="!hideActions">
-        <v-btn v-if="!hideEdit" class="course_card_action" variant="tonal">
-            Edit
-          <CourseEditPopup :id="id" :hall="hall" :date="date" :trainer="trainer" :sport="sport" :page="page"/>
-        </v-btn>
+      <v-btn v-if="!hideEdit" class="course_card_action" variant="tonal">
+        Edit
+        <CourseEditPopup
+          :id="id"
+          :hall="hall"
+          :date="date"
+          :trainer="trainer"
+          :sport="sport"
+          :page="page"
+        />
+      </v-btn>
       <v-btn
         @click="toggleMemberList"
         class="course_card_action"
@@ -102,10 +111,11 @@ import { defineComponent } from "vue";
 import CourseEditPopup from "@/components/CourseEditPopup.vue";
 export default defineComponent({
   name: "CourseCard",
-  components: {CourseEditPopup},
+  components: { CourseEditPopup },
   props: {
     id: {
       type: Number,
+      required: true,
     },
     sport: {
       type: Object,

@@ -4,6 +4,7 @@
       <CourseCard
         v-for="course in courseData"
         :key="course.id"
+        :page="page"
         class="course_card"
         v-bind="course"
         hideEdit
