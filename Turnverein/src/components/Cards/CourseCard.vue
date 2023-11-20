@@ -25,6 +25,9 @@
         >
           {{ day }}
         </v-chip>
+        <v-chip class="course_card_chip" prepend-icon="mdi-map-marker">
+          {{ hall }}
+        </v-chip>
       </v-chip-group>
       <div v-else>
         <v-virtual-scroll

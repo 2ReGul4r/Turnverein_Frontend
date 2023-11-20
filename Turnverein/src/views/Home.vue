@@ -26,6 +26,7 @@ import CardGrid from "@/components/CardGrid.vue";
 import CourseCard from "@/components/Cards/CourseCard.vue";
 import { useUserStore } from "@/store/user";
 import { useAppStore } from "@/store/app";
+import { useDataStore } from "@/store/data";
 import { mapStores } from "pinia";
 
 export default {
@@ -35,7 +36,7 @@ export default {
     CardGrid,
   },
   computed: {
-    ...mapStores(useAppStore, useUserStore),
+    ...mapStores(useAppStore, useUserStore, useDataStore),
     courseData() {
       return this.userStore.getUserCourses;
     },
@@ -53,6 +54,8 @@ export default {
   },
   async mounted() {
     await this.userStore.fetchUserCourses(this.page);
+    await this.dataStore.fetchMember();
+    await this.dataStore.fetchTrainer();
   },
   watch: {
     async page() {
