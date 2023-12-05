@@ -116,8 +116,6 @@ export default defineComponent({
   },
   methods: {
     async save() {
-      const test = this.prepareData();
-      console.log(test);
       await axiosInstance
         .put("course", {...this.prepareData()},
           { headers: { Authorization: `Token ${localStorage.getItem("token")}` }}

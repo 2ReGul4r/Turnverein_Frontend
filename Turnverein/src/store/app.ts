@@ -57,11 +57,12 @@ export const useAppStore = defineStore("app", {
           console.log(error);
         });
     },
-    async fetchCourses(page: number = 1) {
+    async fetchCourses(page: number = 1, sport: string = "") {
+      console.log('request:', page, sport);
       await axiosInstance
         .get("course", {
           headers: { Authorization: `Token ${localStorage.getItem("token")}` },
-          params: { page: page },
+          params: { page: page, sport: sport },
         })
         .then((response: AxiosResponse) => {
           console.log(response.data)

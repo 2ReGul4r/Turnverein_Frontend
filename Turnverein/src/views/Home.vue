@@ -1,4 +1,18 @@
 <template>
+  <v-form @submit.prevent="updateUserCourseData">
+    <v-text-field
+      v-model="searchText"
+      @click:append-inner="updateUserCourseData"
+      @click:append="clearSearchBar"
+      :loading="searchLoading"
+      append-inner-icon="mdi-magnify"
+      append-icon="mdi-close-circle-outline"
+      class="searchBar"
+      label="Search"
+      single-line
+      variant="outlined"
+    />
+  </v-form>
   <CardGrid>
     <template #cards>
       <CourseCard
@@ -52,6 +66,17 @@ export default {
       };
     },
   },
+  methods: {
+    async updateUserCourseData() {
+      this.searchLoading = true;
+      await this.userStore.fetchUserCourses(this.page, this.searchText);
+      this.searchLoading = false;
+    },
+    async clearSearchBar() {
+      this.searchText = "";
+      await this.updateUserCourseData();
+    },
+  },
   async mounted() {
     await this.userStore.fetchUserCourses(this.page);
     await this.dataStore.fetchMember();
@@ -65,6 +90,8 @@ export default {
   data() {
     return {
       page: 1,
+      searchText: "",
+      searchLoading: false,
     };
   },
 };
