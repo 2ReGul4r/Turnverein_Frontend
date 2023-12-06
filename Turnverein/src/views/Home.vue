@@ -42,6 +42,7 @@ import { useUserStore } from "@/store/user";
 import { useAppStore } from "@/store/app";
 import { useDataStore } from "@/store/data";
 import { mapStores } from "pinia";
+import { getPaginationButtonStyles } from "./../../utils";
 
 export default {
   name: "MyCoursesPage",
@@ -58,12 +59,7 @@ export default {
       return this.userStore.getUserCoursePages;
     },
     getPaginationStyleWidth() {
-      const buttonWidth = 48;
-      const buttonPadding = 9.6;
-      return {
-        width:
-          (this.getUserCoursePageCount + 3) * (buttonWidth + buttonPadding),
-      };
+      return getPaginationButtonStyles(this.getUserCoursePageCount);
     },
   },
   methods: {

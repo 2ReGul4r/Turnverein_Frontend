@@ -1,5 +1,6 @@
 <template>
   <v-form @submit.prevent="updateMemberData">
+    <div class="wrapper">
     <v-text-field
       v-model="searchText"
       @click:append-inner="updateMemberData"
@@ -12,6 +13,16 @@
       single-line
       variant="outlined"
     />
+    <v-btn 
+      variant="tonal"
+      height="56px"
+      prependIcon="mdi-plus"
+      width="192px" 
+      rounded 
+    >
+      Create Member
+    </v-btn>
+  </div>
   </v-form>
   <CardGrid>
     <template #cards>
@@ -40,6 +51,7 @@ import MemberCard from "@/components/Cards/MemberCard.vue";
 import { useUserStore } from "@/store/user";
 import { useAppStore } from "@/store/app";
 import { mapStores } from "pinia";
+import { getPaginationButtonStyles } from "./../../utils";
 
 export default {
   name: "MemberPage",
@@ -56,12 +68,7 @@ export default {
       return this.appStore.getMemberListPages;
     },
     getPaginationStyleWidth() {
-      const buttonWidth = 48;
-      const buttonPadding = 9.6;
-      return {
-        width:
-          (this.getMemberDataPageCount + 3) * (buttonWidth + buttonPadding),
-      };
+      return getPaginationButtonStyles(this.getMemberDataPageCount);
     },
   },
   methods: {
@@ -94,7 +101,10 @@ export default {
 </script>
 
 <style scoped>
+.wrapper {
+  display: flex;
+}
 .searchBar {
-  margin: 16px;
+  margin-right: 12px;
 }
 </style>

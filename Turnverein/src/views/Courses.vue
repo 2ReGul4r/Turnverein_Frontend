@@ -1,17 +1,29 @@
 <template>
   <v-form @submit.prevent="updateCourseData">
-    <v-text-field
-      v-model="searchText"
-      @click:append-inner="updateCourseData"
-      @click:append="clearSearchBar"
-      :loading="searchLoading"
-      append-inner-icon="mdi-magnify"
-      append-icon="mdi-close-circle-outline"
-      class="searchBar"
-      label="Search"
-      single-line
-      variant="outlined"
-    />
+    <div class="wrapper">
+      <v-text-field
+        v-model="searchText"
+        @click:append-inner="updateCourseData"
+        @click:append="clearSearchBar"
+        :loading="searchLoading"
+        append-inner-icon="mdi-magnify"
+        append-icon="mdi-close-circle-outline"
+        class="searchBar"
+        label="Search"
+        single-line
+        variant="outlined"
+      />
+      <v-btn 
+        variant="tonal"
+        height="56px"
+        prependIcon="mdi-plus"
+        width="192px" 
+        rounded 
+      >
+        Create Course
+        <CourseCreatePopup :page="page"/>
+      </v-btn>
+    </div>
   </v-form>
   <CardGrid>
     <template #cards>
@@ -41,13 +53,16 @@ import CardGrid from "@/components/CardGrid.vue";
 import CourseCard from "@/components/Cards/CourseCard.vue";
 import { useAppStore } from "@/store/app";
 import { mapStores } from "pinia";
+import { getPaginationButtonStyles } from "./../../utils";
+import CourseCreatePopup from "@/components/CourseCreatePopup.vue";
 
 export default {
   name: "CoursesPage",
   components: {
     CardGrid,
     CourseCard,
-  },
+    CourseCreatePopup
+},
   computed: {
     ...mapStores(useAppStore),
     courseData() {
@@ -57,12 +72,7 @@ export default {
       return this.appStore.getCourseListPages;
     },
     getPaginationStyleWidth() {
-      const buttonWidth = 48;
-      const buttonPadding = 9.6;
-      return {
-        width:
-          (this.getUserCoursePageCount + 3) * (buttonWidth + buttonPadding),
-      };
+      return getPaginationButtonStyles(this.getUserCoursePageCount);
     },
   },
   methods: {
@@ -93,3 +103,13 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.wrapper {
+  display: flex;
+}
+
+.searchBar {
+  margin-right: 12px;
+}
+</style>

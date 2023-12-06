@@ -1,13 +1,13 @@
 <template>
-  <div class="register_wrapper">
+  <div class="trainerCreate_wrapper">
     <v-card
       :loading="loading"
-      class="register_card"
+      class="trainerCreate_card"
       title="Create Trainer-account"
       variant="tonal"
     >
       <v-container>
-        <v-form @submit.prevent="register" fast-fail id="register-form">
+        <v-form @submit.prevent="createTrainer" fast-fail id="trainerCreate-form">
           <v-text-field
             v-model="first_name"
             :rules="nameRules"
@@ -95,8 +95,8 @@
       <v-card-actions>
         <v-spacer></v-spacer>
 
-        <v-btn type="submit" form="register-form">
-          Register
+        <v-btn type="submit" form="trainerCreate-form">
+          Create Trainer
           <v-icon icon="mdi-chevron-right" end></v-icon>
         </v-btn>
       </v-card-actions>
@@ -119,7 +119,7 @@ import {
 export default {
   name: "Login",
   methods: {
-    async register() {
+    async createTrainer() {
       this.loading = true;
       await axiosInstance
         .post("register", {
@@ -168,13 +168,13 @@ export default {
 </script>
 
 <style scoped>
-.register_wrapper {
+.trainerCreate_wrapper {
   display: flex;
   justify-content: center;
   margin: 32px;
 }
 
-.register_card {
+.trainerCreate_card {
   width: clamp(240px, 100%, 480px);
 }
 

@@ -49,19 +49,13 @@
             @click="navigate('/member')"
             :active="isActiveRoute('/member')"
             prepend-icon="mdi-crowd"
-            title="Students"
+            title="Members"
           ></v-list-item>
           <v-list-item
             @click="navigate('/profile')"
             :active="isActiveRoute('/profile')"
             prepend-icon="mdi-account-edit"
             title="Edit my profile"
-          ></v-list-item>
-          <v-list-item
-            @click="navigate('/register')"
-            :active="isActiveRoute('/register')"
-            prepend-icon="mdi-account-plus"
-            title="Register new Trainer"
           ></v-list-item>
           <v-list-item
             @click="userStore.logout"

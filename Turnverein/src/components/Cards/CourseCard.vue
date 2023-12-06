@@ -50,8 +50,9 @@
           </template>
         </v-virtual-scroll>
         <v-list-item>
-          <v-btn @click="" block rounded variant="tonal">
-            <v-icon>mdi-plus</v-icon>
+          <v-btn @click="" block rounded variant="tonal" prepend-icon="mdi-plus">
+            <AddMemberPopup @participantUpdate="fetchMember" :course-id="id" :sport="sport" :trainer="trainer"></AddMemberPopup>
+            Add Members
           </v-btn>
         </v-list-item>
       </div>
@@ -86,11 +87,12 @@ import { AxiosError, AxiosResponse } from "axios";
 import { Participant } from "types";
 import { defineComponent } from "vue";
 import CourseEditPopup from "@/components/CourseEditPopup.vue";
-
+import AddMemberPopup from "@/components/AddMemberPopup.vue"
 import RemoveMemberPopup from "@/components/RemoveMemberPopup.vue";
+
 export default defineComponent({
   name: "CourseCard",
-  components: { CourseEditPopup, RemoveMemberPopup },
+  components: { CourseEditPopup, RemoveMemberPopup, AddMemberPopup },
   props: {
     id: {
       type: Number,

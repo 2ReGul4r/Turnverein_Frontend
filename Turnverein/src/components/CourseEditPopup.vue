@@ -1,74 +1,82 @@
 <template>
-  <v-dialog activator="parent" class="dialog">
-    <template v-slot:default="{ isActive }">
-      <v-card title="Edit Course">
-        <v-form @submit.prevent="save">
-          <div class="combobox_wrapper">
-            <v-text-field
-              v-model="sportEdit"
-              label="Sport"
-              prepend-icon="mdi-basketball"
-              variant="outlined"
-            />
-            <v-combobox
-              v-model="trainerEdit"
-              label="Trainer"
-              :items="getTrainer"
-              :return-object="false"
-              item-title="full_name"
-              item-value="id"
-              prepend-icon="mdi-account"
-              variant="outlined"
-            />
-            <v-select
-              v-model="courseLengthEdit"
-              label="Course length"
-              :items="courseLengthItems"
-              :return-object="false"
-              item-title="name"
-              item-value="length"
-              prepend-icon="mdi-timer-sand"
-              variant="outlined"
-              chips
-            />
-            <v-text-field
-              v-model="timeEdit"
-              label="Time"
-              type="time"
-              prepend-icon="mdi-progress-clock"
-              variant="outlined"
-            />
-            <v-combobox
-              v-model="daysEdit"
-              label="Day"
-              :items="daysItems"
-              :return-object="false"
-              item-title="name"
-              item-value="value"
-              prepend-icon="mdi-calendar-week"
-              variant="outlined"
-              chips
-              multiple
-            />
-            <v-text-field
-              v-model="hallEdit"
-              label="Hall"
-              prepend-icon="mdi-map-marker"
-              variant="outlined"
-            />
-          </div>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              text="Save"
-              @click="isActive.value = false"
-              type="submit"
-            ></v-btn>
-            <v-btn text="Cancel" @click="isActive.value = false"></v-btn>
-          </v-card-actions>
-        </v-form>
-      </v-card>
-    </template>
+  <v-dialog v-model="isActive" activator="parent" class="dialog">
+    <v-card title="Edit Course">
+      <v-form @submit.prevent="saveCourse">
+        <div class="wrapper">
+          <v-text-field
+            v-model="sportEdit"
+            label="Sport"
+            :rules="isRequired"
+            prepend-icon="mdi-basketball"
+            variant="outlined"
+          />
+          <v-combobox
+            v-model="trainerEdit"
+            label="Trainer"
+            :items="getTrainer"
+            :return-object="false"
+            :rules="isRequired"
+            item-title="full_name"
+            item-value="id"
+            prepend-icon="mdi-account"
+            variant="outlined"
+          />
+          <v-select
+            v-model="courseLengthEdit"
+            label="Course length"
+            :items="courseLengthItems"
+            :return-object="false"
+            :rules="isRequired"
+            item-title="name"
+            item-value="length"
+            prepend-icon="mdi-timer-sand"
+            variant="outlined"
+            chips
+          />
+          <v-text-field
+            v-model="timeEdit"
+            label="Time"
+            :rules="isRequired"
+            type="time"
+            prepend-icon="mdi-progress-clock"
+            variant="outlined"
+          />
+          <v-combobox
+            v-model="daysEdit"
+            label="Day"
+            :items="daysItems"
+            :return-object="false"
+            :rules="notEmptyArray"
+            item-title="name"
+            item-value="value"
+            prepend-icon="mdi-calendar-week"
+            variant="outlined"
+            chips
+            multiple
+          />
+          <v-text-field
+            v-model="hallEdit"
+            label="Hall"
+            :rules="isRequired"
+            prepend-icon="mdi-map-marker"
+            variant="outlined"
+          />
+        </div>
+        <v-spacer></v-spacer>
+        <v-card-actions>
+          <v-btn
+            text="Delete"
+            @click="deleteCourse"
+          ></v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+            text="Save"
+            type="submit"
+          ></v-btn>
+          <v-btn text="Cancel" @click="isActive = false"></v-btn>
+        </v-card-actions>
+      </v-form>
+    </v-card>
   </v-dialog>
 </template>
 
@@ -79,6 +87,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user";
 import { useDataStore } from "@/store/data";
+import { isRequired, notEmptyArray } from "@/validations";
 
 export default defineComponent({
   name: "CourseEditPopup",
@@ -115,12 +124,27 @@ export default defineComponent({
     },
   },
   methods: {
-    async save() {
+    async saveCourse() {
       await axiosInstance
         .put("course", {...this.prepareData()},
           { headers: { Authorization: `Token ${localStorage.getItem("token")}` }}
         )
         .then(async (response: AxiosResponse) => {
+          this.isActive = false;
+          await this.userStore.fetchUserCourses(this.page);
+        })
+        .catch((error: AxiosError) => {
+          console.log(error);
+        });
+    },
+    async deleteCourse() {
+      await axiosInstance
+        .delete("course", { 
+          headers: { Authorization: `Token ${localStorage.getItem("token")}` },
+          params: { id: this.id },
+        })
+        .then(async (response: AxiosResponse) => {
+          this.isActive = false;
           await this.userStore.fetchUserCourses(this.page);
         })
         .catch((error: AxiosError) => {
@@ -173,6 +197,7 @@ export default defineComponent({
   },
   data() {
     return {
+      isActive: false,
       sportEdit: "" as string,
       trainerEdit: 0 as number,
       courseLengthEdit: 0 as number,
@@ -194,6 +219,9 @@ export default defineComponent({
         {"value": 16, "name": "Friday"},
         {"value": 32, "name": "Saturday"},
       ],
+      isFormValid: false,
+      isRequired: [isRequired],
+      notEmptyArray: [notEmptyArray],
     };
   },
 });
@@ -203,7 +231,11 @@ export default defineComponent({
 .dialog {
   width: clamp(320px, 100%, 480px);
 }
-.combobox_wrapper {
+.wrapper {
   margin: 32px 32px 0px;
+}
+
+.wrapper * {
+  margin-bottom: 12px;
 }
 </style>

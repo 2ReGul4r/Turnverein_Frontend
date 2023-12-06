@@ -1,17 +1,28 @@
 <template>
   <v-form @submit.prevent="updateTrainerData">
-    <v-text-field
-      v-model="searchText"
-      @click:append-inner="updateTrainerData"
-      @click:append="clearSearchBar"
-      :loading="searchLoading"
-      append-inner-icon="mdi-magnify"
-      append-icon="mdi-close-circle-outline"
-      class="searchBar"
-      label="Search"
-      single-line
-      variant="outlined"
-    />
+    <div class="wrapper">
+      <v-text-field
+        v-model="searchText"
+        @click:append-inner="updateTrainerData"
+        @click:append="clearSearchBar"
+        :loading="searchLoading"
+        append-inner-icon="mdi-magnify"
+        append-icon="mdi-close-circle-outline"
+        class="searchBar"
+        label="Search"
+        single-line
+        variant="outlined"
+      />
+      <v-btn 
+        variant="tonal"
+        height="56px"
+        prependIcon="mdi-plus"
+        width="192px" 
+        rounded 
+      >
+        Create Trainer
+      </v-btn>
+    </div>
   </v-form>
   <CardGrid>
     <template #cards>
@@ -40,6 +51,7 @@ import TrainerCard from "@/components/Cards/TrainerCard.vue";
 import { useUserStore } from "@/store/user";
 import { useAppStore } from "@/store/app";
 import { mapStores } from "pinia";
+import { getPaginationButtonStyles } from "./../../utils";
 
 export default {
   name: "TrainerView",
@@ -56,12 +68,7 @@ export default {
       return this.appStore.getTrainerListPages;
     },
     getPaginationStyleWidth() {
-      const buttonWidth = 48;
-      const buttonPadding = 9.6;
-      return {
-        width:
-          (this.getTrainerDataPageCount + 3) * (buttonWidth + buttonPadding),
-      };
+      return getPaginationButtonStyles(this.getTrainerDataPageCount);
     },
   },
   methods: {
@@ -94,7 +101,10 @@ export default {
 </script>
 
 <style scoped>
+.wrapper {
+  display: flex;
+}
 .searchBar {
-  margin: 16px;
+  margin-right: 12px;
 }
 </style>
