@@ -22,6 +22,16 @@
         class="course_card"
         v-bind="course"
       />
+      <v-alert 
+        v-if="courseData.length === 0"
+        title="Alert"
+        icon="$info"
+      >
+        At this moment you do not have any courses. You can create your courses at
+        <a href="/courses">
+          All Courses
+        </a>
+      </v-alert>
     </template>
     <template #pagination>
       <v-pagination

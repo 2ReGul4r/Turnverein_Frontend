@@ -16,13 +16,40 @@
     <v-card-item prepend-icon="mdi-home-city">
       {{ `City: ${member.postcode.postcode}, ${member.postcode.city}` }}
     </v-card-item>
+    <v-spacer/>
+    <v-card-actions>
+      <v-btn variant="tonal">
+        Delete
+        <DeleteMemberPopup
+          v-if="isStaffUser"
+          :member="member"
+          :page="page"
+        />
+      </v-btn>
+      <v-btn class="member_card_action" variant="tonal">
+        Edit
+        <MemberEditPopup
+          :member-original="member"
+          :page="page"
+        />
+      </v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import MemberEditPopup from "@/components/MemberEditPopup.vue"
+import DeleteMemberPopup from "../DeleteMemberPopup.vue";
+import { mapStores } from "pinia";
+import { useUserStore } from "@/store/user";
+
 export default defineComponent({
   name: "MemberCard",
+  components: {
+    MemberEditPopup,
+    DeleteMemberPopup
+},
   props: {
     member: {
       type: Object,
@@ -32,8 +59,13 @@ export default defineComponent({
       type: Number,
       default: 400,
     },
+    page: {
+      type: Number,
+      required: true,
+    }
   },
   computed: {
+    ...mapStores(useUserStore),
     getTitle() {
       return `${this.member?.first_name} ${this.member?.last_name}`;
     },
@@ -43,6 +75,9 @@ export default defineComponent({
     getBirthday() {
       const birthday = new Date(this.member?.birthday);
       return birthday.toLocaleDateString()
+    },
+    isStaffUser() {
+      return this.userStore.getUserData.is_staff;
     }
   },
 });
@@ -52,5 +87,9 @@ export default defineComponent({
 .trainer_card {
   padding: 8px;
   border: 2px solid #888;
+}
+
+.member_card_action {
+  flex-grow: 1;
 }
 </style>

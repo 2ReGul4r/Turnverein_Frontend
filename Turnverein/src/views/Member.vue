@@ -21,6 +21,7 @@
       rounded 
     >
       Create Member
+      <MemberCreatePopup :page="page"/>
     </v-btn>
   </div>
   </v-form>
@@ -30,6 +31,7 @@
         v-for="member in memberData"
         :key="member.id"
         class="course_card"
+        :page="page"
         :member="member"
       />
     </template>
@@ -52,12 +54,14 @@ import { useUserStore } from "@/store/user";
 import { useAppStore } from "@/store/app";
 import { mapStores } from "pinia";
 import { getPaginationButtonStyles } from "./../../utils";
+import MemberCreatePopup from "@/components/MemberCreatePopup.vue";
 
 export default {
   name: "MemberPage",
   components: {
     CardGrid,
     MemberCard,
+    MemberCreatePopup,
   },
   computed: {
     ...mapStores(useAppStore, useUserStore),

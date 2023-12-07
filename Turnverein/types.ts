@@ -7,10 +7,10 @@ export interface Member {
     id: number,
     first_name: string,
     last_name: string,
-    birthday: Date | string,
+    birthday: string,
     street: string,
     house_number: string,
-    postcode: City 
+    postcode: City
 }
 
 export interface Trainer {

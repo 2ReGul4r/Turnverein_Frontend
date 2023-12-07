@@ -62,17 +62,17 @@
             variant="outlined"
           />
         </div>
-        <v-spacer></v-spacer>
+        <v-spacer/>
         <v-card-actions>
           <v-btn
             text="Delete"
             @click="deleteCourse"
-          ></v-btn>
-          <v-spacer></v-spacer>
+          />
+          <v-spacer/>
           <v-btn
             text="Save"
             type="submit"
-          ></v-btn>
+          />
           <v-btn text="Cancel" @click="isActive = false"></v-btn>
         </v-card-actions>
       </v-form>

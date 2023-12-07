@@ -14,6 +14,7 @@
         variant="outlined"
       />
       <v-btn 
+        v-if="isStaffUser"
         variant="tonal"
         height="56px"
         prependIcon="mdi-plus"
@@ -21,6 +22,7 @@
         rounded 
       >
         Create Trainer
+        <TrainerCreatePopup :page="page"/>
       </v-btn>
     </div>
   </v-form>
@@ -31,6 +33,7 @@
         :key="trainer.id"
         class="course_card"
         :trainer="trainer"
+        :page="page"
       />
     </template>
     <template #pagination>
@@ -52,12 +55,14 @@ import { useUserStore } from "@/store/user";
 import { useAppStore } from "@/store/app";
 import { mapStores } from "pinia";
 import { getPaginationButtonStyles } from "./../../utils";
+import TrainerCreatePopup from "@/components/TrainerCreatePopup.vue"
 
 export default {
   name: "TrainerView",
   components: {
     CardGrid,
     TrainerCard,
+    TrainerCreatePopup,
   },
   computed: {
     ...mapStores(useAppStore, useUserStore),
@@ -69,6 +74,9 @@ export default {
     },
     getPaginationStyleWidth() {
       return getPaginationButtonStyles(this.getTrainerDataPageCount);
+    },
+    isStaffUser() {
+      return this.userStore.getUserData.is_staff;
     },
   },
   methods: {

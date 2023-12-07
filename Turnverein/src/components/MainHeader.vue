@@ -32,14 +32,12 @@
             title="My Courses"
           ></v-list-item>
           <v-list-item
-            v-if="isStaffUser"
             @click="navigate('/courses')"
             :active="isActiveRoute('/courses')"
             prepend-icon="mdi-dots-grid"
             title="All Courses"
           ></v-list-item>
           <v-list-item
-            v-if="isStaffUser"
             @click="navigate('/trainer')"
             :active="isActiveRoute('/trainer')"
             prepend-icon="mdi-account-group"

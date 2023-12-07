@@ -29,7 +29,6 @@ export const useUserStore = defineStore("user", {
         .catch((error: AxiosError) => {
           console.log(error);
         });
-      console.log('userdata fertig');
     },
     async login(username: string, password: string) {
       await axiosInstance

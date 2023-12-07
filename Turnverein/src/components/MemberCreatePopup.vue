@@ -1,87 +1,58 @@
 <template>
   <v-dialog v-model="isActive" activator="parent" class="dialog">
-    <v-card title="Create trainer">
-      <v-form @submit.prevent="createTrainer">
+    <v-card title="Create member">
+      <v-form @submit.prevent="createMember">
         <div class="wrapper">
           <v-text-field
-            v-model="trainer.username"
-            label="Username"
-            :rules="isRequired"
-            variant="outlined"
-          />
-          <v-text-field
-            v-model="trainer.first_name"
+            v-model="member.first_name"
             label="First name"
             :rules="isRequired"
             variant="outlined"
           />
           <v-text-field
-            v-model="trainer.last_name"
+            v-model="member.last_name"
             label="Last name"
             :rules="isRequired"
             variant="outlined"
           />
           <v-text-field
-            v-model="trainer.birthday"
+            v-model="member.birthday"
             label="Birthday"
             :rules="isRequired"
             variant="outlined"
             type="date"
           />
           <v-text-field
-            v-model="trainer.street"
+            v-model="member.street"
             label="Street"
             :rules="isRequired"
             variant="outlined"
           />
           <v-text-field
-            v-model="trainer.house_number"
+            v-model="member.house_number"
             label="House number"
             :rules="isRequired"
             variant="outlined"
           />
           <v-text-field
-            v-model="trainer.postcode.postcode"
+            v-model="member.postcode.postcode"
             label="Postcode"
             :rules="isRequired"
             variant="outlined"
           />
           <v-text-field
-            v-model="trainer.postcode.city"
+            v-model="member.postcode.city"
             label="City"
             :rules="isRequired"
             variant="outlined"
           />
-          <v-text-field
-            v-model="trainer.password"
-            label="Password"
-            @click:append-inner="showPassword = !showPassword"
-            :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            :rules="passwordRules"
-            :type="showPassword ? 'input' : 'password'"
-            prepend-inner-icon="mdi-lock-outline"
-            variant="outlined"
-          />
-          <v-text-field
-            label="Repeat password"
-            :rules="[repeatPasswordRules]"
-            variant="outlined"
-            @click:append-inner="showRepeatPassword = !showRepeatPassword"
-            :append-inner-icon="showRepeatPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            :type="showRepeatPassword ? 'input' : 'password'"
-            prepend-inner-icon="mdi-lock-outline"
-          />
-          <v-checkbox
-            v-model="trainer.is_staff"
-            label="Is staff trainer ?"
-          />
-          <v-spacer></v-spacer>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn text="Save" type="submit"></v-btn>
-            <v-btn text="Cancel" @click="isActive = false"></v-btn>
-          </v-card-actions>
         </div>
+        <v-spacer></v-spacer>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn text="Save" type="submit"></v-btn>
+          <v-btn text="Cancel" @click="isActive = false"></v-btn>
+        </v-card-actions>
       </v-form>
     </v-card>
   </v-dialog>
@@ -93,11 +64,12 @@ import axiosInstance from "@/axios-config";
 import { AxiosError, AxiosResponse } from "axios";
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user";
-import { isRequired, notEmptyArray, minLengthEight } from "@/validations";
+import { isRequired, notEmptyArray } from "@/validations";
 import { useAppStore } from "@/store/app";
+import { Member } from "types";
 
 export default defineComponent({
-  name: "TrainerCreatePopup",
+  name: "MemberCreatePopup",
   props: {
     page: {
       type: Number,
@@ -108,24 +80,21 @@ export default defineComponent({
     ...mapStores(useUserStore, useAppStore),
   },
   methods: {
-    async createTrainer() {
+    async createMember() {
       await axiosInstance
         .post(
-          "register",
-          { ...this.trainer },
+          "member",
+          { ...this.member },
           { headers: { Authorization: `Token ${localStorage.getItem("token")}` }},
         )
         .then(async (response: AxiosResponse) => {
           this.isActive = false;
-          await this.appStore.fetchTrainer(this.page);
+          await this.appStore.fetchMember(this.page);
         })
         .catch((error: AxiosError) => {
           console.log(error);
         });
     },
-    repeatPasswordRules(value: string) {
-      return value === this.trainer.password && value.length >= 8 || "Passwords are not identical";
-    }
   },
   data() {
     return {
@@ -133,11 +102,7 @@ export default defineComponent({
       isFormValid: false,
       isRequired: [isRequired],
       notEmptyArray: [notEmptyArray],
-      passwordRules: [isRequired, minLengthEight],
-      showPassword: false,
-      showRepeatPassword: false,
-      trainer: {
-        username: "" as String,
+      member: {
         first_name: "" as String,
         last_name: "" as String,
         birthday: "" as String,
@@ -147,9 +112,6 @@ export default defineComponent({
           postcode: null as Number | null,
           city: "" as String,
         },
-        is_staff: false,
-        is_active: true,
-        password: "" as String,
       }
     };
   },

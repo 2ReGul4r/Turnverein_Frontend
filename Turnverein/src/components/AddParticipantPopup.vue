@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="addMemberDialog" activator="parent" class="dialog">
+  <v-dialog v-model="addParticipantDialog" activator="parent" class="dialog">
     <v-card :title="getTitle" :loading="loading">
       <v-form @submit.prevent="addParticipant">
         <div class="wrapper">
@@ -27,11 +27,11 @@
           Add
         </v-btn>
         <v-btn
-          @click="addMemberDialog = false"
+          @click="addParticipantDialog = false"
           class="card_action"
           variant="tonal"
         >
-          Cancle
+          Cancel
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -47,7 +47,7 @@ import { useDataStore } from "@/store/data";
 import { isRequired } from "@/validations";
 
 export default defineComponent({
-  name: "AddMemberPopup",
+  name: "AddParticipantPopup",
   props: {
     courseId: {
       type: Number,
@@ -66,7 +66,9 @@ export default defineComponent({
       return this.dataStore.getMemberList;
     },
     getTitle() {
-      return this.sport && this.trainer ? `Add members to ${this.sport.name} by ${this.trainer.full_name}` : "Add members to course"
+      return this.sport && this.trainer
+        ? `Add members to ${this.sport.name} by ${this.trainer.full_name}`
+        : "Add members to course";
     },
   },
   methods: {
@@ -74,9 +76,14 @@ export default defineComponent({
       console.log(this.participantIds);
       this.loading = true;
       await axiosInstance
-        .post("participant", 
+        .post(
+          "participant",
           { course_id: this.courseId, members: this.participantIds },
-          { headers: { Authorization: `Token ${localStorage.getItem("token")}` }},
+          {
+            headers: {
+              Authorization: `Token ${localStorage.getItem("token")}`,
+            },
+          }
         )
         .then(async (response: AxiosResponse) => {
           this.$emit("participantUpdate");
@@ -85,13 +92,13 @@ export default defineComponent({
           console.log(error);
         });
       this.loading = false;
-      this.addMemberDialog = false;
+      this.addParticipantDialog = false;
     },
   },
   data() {
     return {
       loading: false,
-      addMemberDialog: false,
+      addParticipantDialog: false,
       participantIds: [] as number[],
       isRequired: [isRequired],
     };
