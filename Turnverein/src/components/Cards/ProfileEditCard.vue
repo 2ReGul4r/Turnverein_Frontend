@@ -1,62 +1,216 @@
 <template>
-  <div class="profile_wrapper">
-    <v-card
-      title="Profile Edit"
-      class="trainer_card d-flex flex-column"
-      variant="tonal"
-    >
-      <form>
-        <v-text-field
-          v-model="trainer.birthday"
-          @click:prepend="console.log(trainer)"
-          type="date"
-          prepend-icon="mdi-cake"
-        />
-        <v-text-field
-          v-model="trainer.street"
-          prepend-icon="mdi-map-marker"
-        />
-        <v-text-field
-          v-model="trainer.postcode"
-          type="number"
-          prepend-icon="mdi-home-city"
-        />
-      </form>
+  <div class="editprofile">
+    <v-card title="Edit profile" class="editprofile-card stack" variant="tonal">
+      <v-form @submit.prevent="editTrainer">
+        <div class="wrapper">
+          <v-text-field
+            v-model="trainer.first_name"
+            label="First name"
+            :rules="isRequired"
+            variant="outlined"
+          />
+          <v-text-field
+            v-model="trainer.last_name"
+            label="Last name"
+            :rules="isRequired"
+            variant="outlined"
+          />
+          <v-text-field
+            v-model="trainer.birthday"
+            label="Birthday"
+            :rules="isRequired"
+            variant="outlined"
+            type="date"
+          />
+          <v-text-field
+            v-model="trainer.street"
+            label="Street"
+            :rules="isRequired"
+            variant="outlined"
+          />
+          <v-text-field
+            v-model="trainer.house_number"
+            label="House number"
+            :rules="isRequired"
+            variant="outlined"
+          />
+          <v-text-field
+            v-model="trainer.postcode.postcode"
+            label="Postcode"
+            :rules="isRequired"
+            variant="outlined"
+          />
+          <v-text-field
+            v-model="trainer.postcode.city"
+            label="City"
+            :rules="isRequired"
+            variant="outlined"
+          />
+        </div>
+        <v-spacer></v-spacer>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn text="Save" type="submit"></v-btn>
+        </v-card-actions>
+      </v-form>
+    </v-card>
+    <v-card title="Change password" class="editprofile-card noFullHeight" variant="tonal">
+      <v-form>
+        <div class="wrapper">
+          <v-text-field
+            v-model="old_password"
+            label="Old password"
+            @click:append-inner="showOldPassword = !showOldPassword"
+            :append-inner-icon="showOldPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :rules="passwordRules"
+            :type="showOldPassword ? 'input' : 'password'"
+            autocomplete="current-password"
+            prepend-inner-icon="mdi-lock-outline"
+            variant="outlined"
+          />
+          <v-text-field
+            v-model="new_password"
+            label="New password"
+            @click:append-inner="showNewPassword = !showNewPassword"
+            :append-inner-icon="showNewPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :rules="passwordRules"
+            :type="showNewPassword ? 'input' : 'password'"
+            prepend-inner-icon="mdi-lock-outline"
+            variant="outlined"
+          />
+          <v-text-field
+            label="Repeat new password"
+            :rules="[repeatPasswordRules]"
+            variant="outlined"
+            @click:append-inner="showRepeatPassword = !showRepeatPassword"
+            :append-inner-icon="showRepeatPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="showRepeatPassword ? 'input' : 'password'"
+            prepend-inner-icon="mdi-lock-outline"
+          />
+        </div>
+        <v-spacer></v-spacer>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn text="Save" type="submit"></v-btn>
+        </v-card-actions>
+      </v-form>
     </v-card>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useUserStore } from "@/store/user";
+import axiosInstance from "@/axios-config";
+import { AxiosError, AxiosResponse } from "axios";
 import { mapStores } from "pinia";
-import { Trainer } from "../../../types";
+import { useUserStore } from "@/store/user";
+import { isRequired, minLengthEight } from "@/validations";
+import { useAppStore } from "@/store/app";
 
 export default defineComponent({
   name: "ProfileEditCard",
   computed: {
-    ...mapStores(useUserStore),
+    ...mapStores(useUserStore, useAppStore),
+  },
+  methods: {
+    async editTrainer() {
+      await axiosInstance
+        .put(
+          "trainer",
+          { ...this.trainer },
+          {
+            headers: {
+              Authorization: `Token ${localStorage.getItem("token")}`,
+            },
+          }
+        )
+        .then(async (response: AxiosResponse) => {
+          await this.userStore.fetchUserData();
+        })
+        .catch((error: AxiosError) => {
+          console.log(error);
+        });
+    },
+    async changePassword() {
+      await axiosInstance
+        .put(
+          "changePassword",
+          { old_password: this.old_password, new_password: this.new_password },
+          {
+            headers: {
+              Authorization: `Token ${localStorage.getItem("token")}`,
+            },
+          }
+        )
+        .then(async (response: AxiosResponse) => {
+          await this.userStore.logout();
+        })
+        .catch((error: AxiosError) => {
+          console.log(error);
+        });
+    },
+    repeatPasswordRules(value: string) {
+      return value === this.new_password && value.length >= 8 || "Passwords are not identical";
+    }
   },
   mounted() {
     this.trainer = this.userStore.getUserData;
+    console.log(this.trainer)
   },
   data() {
     return {
-      trainer: {} as Trainer,
+      old_password: "" as String,
+      new_password: "" as String,
+      showOldPassword: false,
+      showNewPassword: false,
+      showRepeatPassword: false,
+      isRequired: [isRequired],
+      passwordRules: [isRequired, minLengthEight],
+      trainer: {
+        username: "" as String,
+        first_name: "" as String,
+        last_name: "" as String,
+        birthday: "" as String,
+        street: "" as String,
+        house_number: "" as String,
+        postcode: {
+          postcode: 0 as Number,
+          city: "" as String,
+        },
+      }
     };
   },
 });
 </script>
 
 <style scoped>
-.profile_wrapper {
+
+.editprofile {
+  column-gap: 16px;
   display: flex;
-  justify-content: center;
-  margin: 32px;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  margin-bottom: 32px;
+  row-gap: 16px;
 }
-.trainer_card {
-  padding: 8px;
-  border: 2px solid #888;
-  width: clamp(360px, 100%, 1080px)
+.wrapper {
+  margin: 32px 32px 0px;
 }
+
+.wrapper * {
+  margin-bottom: 12px;
+}
+
+.editprofile-card {
+  width: clamp(320px, 100%, 640px);
+}
+
+.stack {
+  margin-bottom: 24px;
+}
+
+.noFullHeight {
+  height: fit-content;
+}
+
 </style>

@@ -18,11 +18,11 @@ export interface Trainer {
     first_name: string,
     last_name: string,
     username: string,
-    birthday: Date | string,
+    birthday: string,
     street: string,
     house_number: string,
     postcode: City,
-    is_staff: boolean
+    is_staff?: boolean
 }
     
 export interface Sport {
