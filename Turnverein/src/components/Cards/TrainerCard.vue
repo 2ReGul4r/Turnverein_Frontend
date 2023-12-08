@@ -26,7 +26,7 @@
           <DeleteTrainerPopup :trainer="trainer" :page="page" />
         </v-btn>
         <v-spacer />
-        <v-btn variant="tonal"> Toggle Staff </v-btn>
+        <v-btn @click="toggleStaff" variant="tonal"> Toggle Staff </v-btn>
       </v-card-actions>
     </div>
   </v-card>
@@ -59,11 +59,11 @@ export default defineComponent({
     },
   },
   methods: {
-    async toggleStaff(trainerId: number) {
+    async toggleStaff() {
       await axiosInstance
         .post(
           "toggle-staff",
-          { id: trainerId },
+          { id: this.trainer.id },
           {
             headers: {
               Authorization: `Token ${localStorage.getItem("token")}`,
