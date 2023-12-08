@@ -13,16 +13,16 @@
         single-line
         variant="outlined"
       />
-      <v-btn 
+      <v-btn
         v-if="isStaffUser"
         variant="tonal"
         height="56px"
         prependIcon="mdi-plus"
-        width="192px" 
-        rounded 
+        width="192px"
+        rounded
       >
         Create Trainer
-        <TrainerCreatePopup :page="page"/>
+        <TrainerCreatePopup :page="page" />
       </v-btn>
     </div>
   </v-form>
@@ -55,7 +55,7 @@ import { useUserStore } from "@/store/user";
 import { useAppStore } from "@/store/app";
 import { mapStores } from "pinia";
 import { getPaginationButtonStyles } from "./../../utils";
-import TrainerCreatePopup from "@/components/TrainerCreatePopup.vue"
+import TrainerCreatePopup from "@/components/TrainerCreatePopup.vue";
 
 export default {
   name: "TrainerView",

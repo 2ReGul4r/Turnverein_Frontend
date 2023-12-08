@@ -2,7 +2,7 @@
   <div id="app">
     <v-app>
       <MainHeader v-if="showHeader">
-        <div style="padding: 32px;">
+        <div style="padding: 32px">
           <router-view />
         </div>
       </MainHeader>
@@ -29,7 +29,7 @@ export default {
     },
   },
   mounted() {
-    if(!this.userStore.userData.id && localStorage.getItem("token") !== null) {
+    if (!this.userStore.userData.id && localStorage.getItem("token") !== null) {
       this.userStore.fetchUserData();
     }
   },

@@ -62,17 +62,11 @@
             variant="outlined"
           />
         </div>
-        <v-spacer/>
+        <v-spacer />
         <v-card-actions>
-          <v-btn
-            text="Delete"
-            @click="deleteCourse"
-          />
-          <v-spacer/>
-          <v-btn
-            text="Save"
-            type="submit"
-          />
+          <v-btn text="Delete" @click="deleteCourse" />
+          <v-spacer />
+          <v-btn text="Save" type="submit" />
           <v-btn text="Cancel" @click="isActive = false"></v-btn>
         </v-card-actions>
       </v-form>
@@ -126,8 +120,14 @@ export default defineComponent({
   methods: {
     async saveCourse() {
       await axiosInstance
-        .put("course", {...this.prepareData()},
-          { headers: { Authorization: `Token ${localStorage.getItem("token")}` }}
+        .put(
+          "course",
+          { ...this.prepareData() },
+          {
+            headers: {
+              Authorization: `Token ${localStorage.getItem("token")}`,
+            },
+          }
         )
         .then(async (response: AxiosResponse) => {
           this.isActive = false;
@@ -139,7 +139,7 @@ export default defineComponent({
     },
     async deleteCourse() {
       await axiosInstance
-        .delete("course", { 
+        .delete("course", {
           headers: { Authorization: `Token ${localStorage.getItem("token")}` },
           params: { id: this.id },
         })
@@ -154,7 +154,9 @@ export default defineComponent({
     prepareData() {
       const [hour, minute] = this.timeEdit.split(":");
       // Counts the values in the daysEdit obj together
-      let days: number = this.daysEdit.map(item => item).reduce((a, b) => a + b, 0);
+      let days: number = this.daysEdit
+        .map((item) => item)
+        .reduce((a, b) => a + b, 0);
       return {
         id: this.id,
         sport: {
@@ -174,7 +176,7 @@ export default defineComponent({
       let days = this.date.days;
       const items = [...this.daysItems];
       items.reverse().forEach((item) => {
-        if(days >= item.value) {
+        if (days >= item.value) {
           this.daysEdit.push(item.value);
           days -= item.value;
         }
@@ -186,14 +188,16 @@ export default defineComponent({
     this.sportEdit = this.sport.name;
     this.trainerEdit = this.trainer.id;
     this.courseLengthEdit = this.date.course_length;
-    this.timeEdit = `${this.date.hour}:${this.date.minute.toString().padStart(2, "0")}`;
+    this.timeEdit = `${this.date.hour}:${this.date.minute
+      .toString()
+      .padStart(2, "0")}`;
     this.hallEdit = this.hall;
     this.setDays();
   },
   watch: {
     daysEdit() {
       console.log(this.daysEdit);
-    }
+    },
   },
   data() {
     return {
@@ -205,19 +209,19 @@ export default defineComponent({
       daysEdit: [] as number[],
       hallEdit: "" as string,
       courseLengthItems: [
-        {"length": 30, "name": "30 Minutes"},
-        {"length": 45, "name": "45 Minutes"},
-        {"length": 60, "name": "60 Minutes"},
-        {"length": 90, "name": "90 Minutes"},
-        {"length": 120, "name": "120 Minutes"},
+        { length: 30, name: "30 Minutes" },
+        { length: 45, name: "45 Minutes" },
+        { length: 60, name: "60 Minutes" },
+        { length: 90, name: "90 Minutes" },
+        { length: 120, name: "120 Minutes" },
       ],
       daysItems: [
-        {"value": 1, "name": "Monday"},
-        {"value": 2, "name": "Tuesday"},
-        {"value": 4, "name": "Wednesday"},
-        {"value": 8, "name": "Thursday"},
-        {"value": 16, "name": "Friday"},
-        {"value": 32, "name": "Saturday"},
+        { value: 1, name: "Monday" },
+        { value: 2, name: "Tuesday" },
+        { value: 4, name: "Wednesday" },
+        { value: 8, name: "Thursday" },
+        { value: 16, name: "Friday" },
+        { value: 32, name: "Saturday" },
       ],
       isFormValid: false,
       isRequired: [isRequired],

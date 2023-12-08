@@ -85,7 +85,11 @@ export default defineComponent({
         .post(
           "member",
           { ...this.member },
-          { headers: { Authorization: `Token ${localStorage.getItem("token")}` }},
+          {
+            headers: {
+              Authorization: `Token ${localStorage.getItem("token")}`,
+            },
+          }
         )
         .then(async (response: AxiosResponse) => {
           this.isActive = false;
@@ -112,7 +116,7 @@ export default defineComponent({
           postcode: null as Number | null,
           city: "" as String,
         },
-      }
+      },
     };
   },
 });

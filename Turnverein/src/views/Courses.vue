@@ -13,15 +13,15 @@
         single-line
         variant="outlined"
       />
-      <v-btn 
+      <v-btn
         variant="tonal"
         height="56px"
         prependIcon="mdi-plus"
-        width="192px" 
-        rounded 
+        width="192px"
+        rounded
       >
         Create Course
-        <CourseCreatePopup :page="page"/>
+        <CourseCreatePopup :page="page" />
       </v-btn>
     </div>
   </v-form>
@@ -61,8 +61,8 @@ export default {
   components: {
     CardGrid,
     CourseCard,
-    CourseCreatePopup
-},
+    CourseCreatePopup,
+  },
   computed: {
     ...mapStores(useAppStore),
     courseData() {

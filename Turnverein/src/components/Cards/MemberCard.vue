@@ -16,22 +16,15 @@
     <v-card-item prepend-icon="mdi-home-city">
       {{ `City: ${member.postcode.postcode}, ${member.postcode.city}` }}
     </v-card-item>
-    <v-spacer/>
+    <v-spacer />
     <v-card-actions>
-      <v-btn variant="tonal">
+      <v-btn v-if="isStaffUser" variant="tonal">
         Delete
-        <DeleteMemberPopup
-          v-if="isStaffUser"
-          :member="member"
-          :page="page"
-        />
+        <DeleteMemberPopup :member="member" :page="page" />
       </v-btn>
       <v-btn class="member_card_action" variant="tonal">
         Edit
-        <MemberEditPopup
-          :member-original="member"
-          :page="page"
-        />
+        <MemberEditPopup :member-original="member" :page="page" />
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -39,7 +32,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import MemberEditPopup from "@/components/MemberEditPopup.vue"
+import MemberEditPopup from "@/components/MemberEditPopup.vue";
 import DeleteMemberPopup from "../DeleteMemberPopup.vue";
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user";
@@ -48,8 +41,8 @@ export default defineComponent({
   name: "MemberCard",
   components: {
     MemberEditPopup,
-    DeleteMemberPopup
-},
+    DeleteMemberPopup,
+  },
   props: {
     member: {
       type: Object,
@@ -62,7 +55,7 @@ export default defineComponent({
     page: {
       type: Number,
       required: true,
-    }
+    },
   },
   computed: {
     ...mapStores(useUserStore),
@@ -74,11 +67,11 @@ export default defineComponent({
     },
     getBirthday() {
       const birthday = new Date(this.member?.birthday);
-      return birthday.toLocaleDateString()
+      return birthday.toLocaleDateString();
     },
     isStaffUser() {
       return this.userStore.getUserData.is_staff;
-    }
+    },
   },
 });
 </script>

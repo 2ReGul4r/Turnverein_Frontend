@@ -62,10 +62,8 @@
           ></v-list-item>
         </v-list>
       </v-navigation-drawer>
-      <v-main
-        @click="rail = true"
-      >
-        <slot/>
+      <v-main @click="rail = true">
+        <slot />
       </v-main>
     </v-layout>
   </v-card>
@@ -91,13 +89,13 @@ export default {
     isActiveRoute() {
       return (route: string) => {
         return this.$route.path === route;
-      }
-    }
+      };
+    },
   },
   methods: {
     navigate(route: string) {
       this.$router.push(route);
-    }
+    },
   },
   data() {
     return {

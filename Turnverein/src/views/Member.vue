@@ -1,29 +1,29 @@
 <template>
   <v-form @submit.prevent="updateMemberData">
     <div class="wrapper">
-    <v-text-field
-      v-model="searchText"
-      @click:append-inner="updateMemberData"
-      @click:append="clearSearchBar"
-      :loading="searchLoading"
-      append-inner-icon="mdi-magnify"
-      append-icon="mdi-close-circle-outline"
-      class="searchBar"
-      label="Search"
-      single-line
-      variant="outlined"
-    />
-    <v-btn 
-      variant="tonal"
-      height="56px"
-      prependIcon="mdi-plus"
-      width="192px" 
-      rounded 
-    >
-      Create Member
-      <MemberCreatePopup :page="page"/>
-    </v-btn>
-  </div>
+      <v-text-field
+        v-model="searchText"
+        @click:append-inner="updateMemberData"
+        @click:append="clearSearchBar"
+        :loading="searchLoading"
+        append-inner-icon="mdi-magnify"
+        append-icon="mdi-close-circle-outline"
+        class="searchBar"
+        label="Search"
+        single-line
+        variant="outlined"
+      />
+      <v-btn
+        variant="tonal"
+        height="56px"
+        prependIcon="mdi-plus"
+        width="192px"
+        rounded
+      >
+        Create Member
+        <MemberCreatePopup :page="page" />
+      </v-btn>
+    </div>
   </v-form>
   <CardGrid>
     <template #cards>

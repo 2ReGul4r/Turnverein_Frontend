@@ -5,6 +5,7 @@
     :subtitle="getSubTitle"
     :width="width"
     :style="getComputedStyle"
+    :append-icon="trainer.is_staff ? 'mdi-crown' : ''"
     class="trainer_card d-flex flex-column"
     variant="tonal"
   >
@@ -18,17 +19,14 @@
       {{ `City: ${trainer.postcode.postcode}, ${trainer.postcode.city}` }}
     </v-card-item>
     <div v-if="isStaffUser">
-      <v-spacer/>
+      <v-spacer />
       <v-card-actions>
-        <v-btn
-          variant="tonal"
-        >
+        <v-btn variant="tonal">
           Delete
-          <DeleteTrainerPopup
-            :trainer="trainer"
-            :page="page"
-          />
+          <DeleteTrainerPopup :trainer="trainer" :page="page" />
         </v-btn>
+        <v-spacer />
+        <v-btn variant="tonal"> Toggle Staff </v-btn>
       </v-card-actions>
     </div>
   </v-card>
@@ -38,44 +36,67 @@
 import { defineComponent } from "vue";
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user";
+import axiosInstance from "@/axios-config";
+import { AxiosError, AxiosResponse } from "axios";
 import DeleteTrainerPopup from "@/components/DeleteTrainerPopup.vue";
+import { useAppStore } from "@/store/app";
 
 export default defineComponent({
-    name: "TrainerCard",
-    components: { DeleteTrainerPopup },
-    props: {
-        trainer: {
-            type: Object,
-            required: true,
-        },
-        width: {
-            type: Number,
-            default: 400,
-        },
-        page: {
-            type: Number,
-            required: true,
-        },
+  name: "TrainerCard",
+  components: { DeleteTrainerPopup },
+  props: {
+    trainer: {
+      type: Object,
+      required: true,
     },
-    computed: {
-        ...mapStores(useUserStore),
-        getTitle() {
-            return `${this.trainer?.first_name} ${this.trainer?.last_name}`;
-        },
-        getSubTitle() {
-            return this.trainer.username;
-        },
-        getComputedStyle() {
-            return { "min-width": this.width + "px" };
-        },
-        getBirthday() {
-            const birthday = new Date(this.trainer?.birthday);
-            return birthday.toLocaleDateString();
-        },
-        isStaffUser() {
-            return this.userStore.getUserData.is_staff;
-        }
+    width: {
+      type: Number,
+      default: 400,
     },
+    page: {
+      type: Number,
+      required: true,
+    },
+  },
+  methods: {
+    async toggleStaff(trainerId: number) {
+      await axiosInstance
+        .post(
+          "toggle-staff",
+          { id: trainerId },
+          {
+            headers: {
+              Authorization: `Token ${localStorage.getItem("token")}`,
+            },
+          }
+        )
+        .then(async (response: AxiosResponse) => {
+          await this.appStore.fetchTrainer(this.page);
+        })
+        .catch((error: AxiosError) => {
+          console.log(error);
+        });
+    },
+  },
+  computed: {
+    ...mapStores(useUserStore, useAppStore),
+    getTitle() {
+      return `${this.trainer?.first_name} ${this.trainer?.last_name}`;
+    },
+    getSubTitle() {
+      return this.trainer.username;
+    },
+    getComputedStyle() {
+      return { "min-width": this.width + "px" };
+    },
+    getBirthday() {
+      const birthday = new Date(this.trainer?.birthday);
+      return birthday.toLocaleDateString();
+    },
+    isStaffUser() {
+      return this.userStore.getUserData.is_staff;
+    },
+  },
 });
 </script>
 

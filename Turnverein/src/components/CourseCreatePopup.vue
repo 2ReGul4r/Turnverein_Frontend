@@ -64,10 +64,7 @@
         </div>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            text="Save"
-            type="submit"
-          ></v-btn>
+          <v-btn text="Save" type="submit"></v-btn>
           <v-btn text="Cancel" @click="isActive = false"></v-btn>
         </v-card-actions>
       </v-form>
@@ -101,7 +98,7 @@ export default defineComponent({
   methods: {
     async create() {
       if (!this.isFormValid) {
-        return
+        return;
       }
       await axiosInstance
         .post(

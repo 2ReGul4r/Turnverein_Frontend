@@ -42,7 +42,11 @@
               </v-list-item-title>
               <template v-slot:append>
                 <v-btn rounded variant="tonal">
-                  <RemoveMemberPopup @participantUpdate="fetchMember" :item="item" :title="getTitle"/>
+                  <RemoveMemberPopup
+                    @participantUpdate="fetchMember"
+                    :item="item"
+                    :title="getTitle"
+                  />
                   <v-icon>mdi-delete</v-icon>
                 </v-btn>
               </template>
@@ -50,8 +54,19 @@
           </template>
         </v-virtual-scroll>
         <v-list-item>
-          <v-btn @click="" block rounded variant="tonal" prepend-icon="mdi-plus">
-            <AddParticipantPopup @participantUpdate="fetchMember" :course-id="id" :sport="sport" :trainer="trainer"></AddParticipantPopup>
+          <v-btn
+            @click=""
+            block
+            rounded
+            variant="tonal"
+            prepend-icon="mdi-plus"
+          >
+            <AddParticipantPopup
+              @participantUpdate="fetchMember"
+              :course-id="id"
+              :sport="sport"
+              :trainer="trainer"
+            ></AddParticipantPopup>
             Add Participant
           </v-btn>
         </v-list-item>
@@ -87,7 +102,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import { Participant } from "types";
 import { defineComponent } from "vue";
 import CourseEditPopup from "@/components/CourseEditPopup.vue";
-import AddParticipantPopup from "@/components/AddParticipantPopup.vue"
+import AddParticipantPopup from "@/components/AddParticipantPopup.vue";
 import RemoveMemberPopup from "@/components/RemoveMemberPopup.vue";
 
 export default defineComponent({

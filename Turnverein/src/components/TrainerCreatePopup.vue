@@ -73,6 +73,7 @@
           />
           <v-checkbox
             v-model="trainer.is_staff"
+            :append-icon="trainer.is_staff ? 'mdi-crown' : ''"
             label="Is staff trainer ?"
           />
           <v-spacer></v-spacer>
@@ -93,7 +94,7 @@ import axiosInstance from "@/axios-config";
 import { AxiosError, AxiosResponse } from "axios";
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user";
-import { isRequired, notEmptyArray, minLengthEight } from "@/validations";
+import { isRequired, minLengthEight } from "@/validations";
 import { useAppStore } from "@/store/app";
 
 export default defineComponent({
@@ -109,13 +110,19 @@ export default defineComponent({
   },
   methods: {
     async createTrainer() {
+      console.log(this.trainer);
       await axiosInstance
         .post(
           "register",
           { ...this.trainer },
-          { headers: { Authorization: `Token ${localStorage.getItem("token")}` }},
+          {
+            headers: {
+              Authorization: `Token ${localStorage.getItem("token")}`,
+            },
+          }
         )
         .then(async (response: AxiosResponse) => {
+          console.log("response:", response);
           this.isActive = false;
           await this.appStore.fetchTrainer(this.page);
         })
@@ -124,15 +131,17 @@ export default defineComponent({
         });
     },
     repeatPasswordRules(value: string) {
-      return value === this.trainer.password && value.length >= 8 || "Passwords are not identical";
-    }
+      return (
+        (value === this.trainer.password && value.length >= 8) ||
+        "Passwords are not identical"
+      );
+    },
   },
   data() {
     return {
       isActive: false,
       isFormValid: false,
       isRequired: [isRequired],
-      notEmptyArray: [notEmptyArray],
       passwordRules: [isRequired, minLengthEight],
       showPassword: false,
       showRepeatPassword: false,
@@ -150,7 +159,7 @@ export default defineComponent({
         is_staff: false,
         is_active: true,
         password: "" as String,
-      }
+      },
     };
   },
 });

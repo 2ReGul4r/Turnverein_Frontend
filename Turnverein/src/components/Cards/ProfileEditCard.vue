@@ -54,8 +54,12 @@
         </v-card-actions>
       </v-form>
     </v-card>
-    <v-card title="Change password" class="editprofile-card noFullHeight" variant="tonal">
-      <v-form>
+    <v-card
+      title="Change password"
+      class="editprofile-card noFullHeight"
+      variant="tonal"
+    >
+      <v-form @submit.prevent="changePassword">
         <div class="wrapper">
           <v-text-field
             v-model="old_password"
@@ -133,8 +137,8 @@ export default defineComponent({
     },
     async changePassword() {
       await axiosInstance
-        .put(
-          "changePassword",
+        .post(
+          "change-password",
           { old_password: this.old_password, new_password: this.new_password },
           {
             headers: {
@@ -150,12 +154,15 @@ export default defineComponent({
         });
     },
     repeatPasswordRules(value: string) {
-      return value === this.new_password && value.length >= 8 || "Passwords are not identical";
-    }
+      return (
+        (value === this.new_password && value.length >= 8) ||
+        "Passwords are not identical"
+      );
+    },
   },
   mounted() {
     this.trainer = this.userStore.getUserData;
-    console.log(this.trainer)
+    console.log(this.trainer);
   },
   data() {
     return {
@@ -177,14 +184,13 @@ export default defineComponent({
           postcode: 0 as Number,
           city: "" as String,
         },
-      }
+      },
     };
   },
 });
 </script>
 
 <style scoped>
-
 .editprofile {
   column-gap: 16px;
   display: flex;
@@ -212,5 +218,4 @@ export default defineComponent({
 .noFullHeight {
   height: fit-content;
 }
-
 </style>

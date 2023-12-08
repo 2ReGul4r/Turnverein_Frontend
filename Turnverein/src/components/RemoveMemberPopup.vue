@@ -38,7 +38,7 @@ export default defineComponent({
     title: {
       type: String,
       required: true,
-    }
+    },
   },
   methods: {
     async deleteParticipant(participantId: number) {
@@ -50,7 +50,7 @@ export default defineComponent({
           params: { id: participantId },
         })
         .then(async (response: AxiosResponse) => {
-          this.$emit('participantUpdate');
+          this.$emit("participantUpdate");
         })
         .catch((error: AxiosError) => {
           console.log(error);
@@ -63,8 +63,8 @@ export default defineComponent({
     return {
       loading: false,
       removeMemberDialog: false,
-    }
-  }
+    };
+  },
 });
 </script>
 
