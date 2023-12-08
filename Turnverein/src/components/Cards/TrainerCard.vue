@@ -2,11 +2,12 @@
   <v-card
     v-if="trainer"
     :title="getTitle"
-    :subtitle="getSubTitle"
+    :subtitle="trainer.username"
     :width="width"
     :style="getComputedStyle"
     :append-icon="trainer.is_staff ? 'mdi-crown' : ''"
     class="trainer_card d-flex flex-column"
+    data-testid="trainer_card-wrapper"
     variant="tonal"
   >
     <v-card-item prepend-icon="mdi-cake">
@@ -82,9 +83,6 @@ export default defineComponent({
     ...mapStores(useUserStore, useAppStore),
     getTitle() {
       return `${this.trainer?.first_name} ${this.trainer?.last_name}`;
-    },
-    getSubTitle() {
-      return this.trainer.username;
     },
     getComputedStyle() {
       return { "min-width": this.width + "px" };

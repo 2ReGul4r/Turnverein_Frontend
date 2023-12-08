@@ -1,6 +1,11 @@
 <template>
-  <div class="editprofile">
-    <v-card title="Edit profile" class="editprofile-card stack" variant="tonal">
+  <div class="editprofile" data-testid="profile_edit_card-wrapper">
+    <v-card
+      title="Edit profile"
+      class="editprofile-card stack"
+      data-testid="profile_edit_card-profile"
+      variant="tonal"
+    >
       <v-form @submit.prevent="editTrainer">
         <div class="wrapper">
           <v-text-field
@@ -57,6 +62,7 @@
     <v-card
       title="Change password"
       class="editprofile-card noFullHeight"
+      data-testid="profile_edit_card-password"
       variant="tonal"
     >
       <v-form @submit.prevent="changePassword">

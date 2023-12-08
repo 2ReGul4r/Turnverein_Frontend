@@ -11,7 +11,7 @@
     variant="tonal"
   >
     <div class="course_card_content">
-      <v-chip-group v-if="!showMember" data-testid="course_card-chips">
+      <v-chip-group v-if="!showMember">
         <v-chip class="course_card_chip" prepend-icon="mdi-timer-sand">
           {{ date.course_length + " Minutes" }}
         </v-chip>
@@ -34,7 +34,6 @@
         <v-virtual-scroll
           v-if="!isEmptyMemberList"
           :items="memberList"
-          data-testid="course_card-memberlist"
           item-height="50"
         >
           <template v-slot:default="{ item }">
@@ -56,12 +55,7 @@
           </template>
         </v-virtual-scroll>
         <v-list-item>
-          <v-btn
-            block
-            rounded
-            variant="tonal"
-            prepend-icon="mdi-plus"
-          >
+          <v-btn block rounded variant="tonal" prepend-icon="mdi-plus">
             <AddParticipantPopup
               @participantUpdate="fetchMember"
               :course-id="id"
@@ -75,7 +69,7 @@
     </div>
     <v-spacer></v-spacer>
     <v-card-actions v-if="!hideActions">
-      <v-btn v-if="!hideEdit" class="course_card_action" variant="tonal" data-testid="course_card-edit-button">
+      <v-btn v-if="!hideEdit" class="course_card_action" variant="tonal">
         Edit
         <CourseEditPopup
           :id="id"
@@ -89,7 +83,6 @@
       <v-btn
         @click="toggleMemberList"
         class="course_card_action"
-        data-testid="course_card-togglemember-button"
         variant="tonal"
       >
         {{ showMember ? "Show course details" : "Show students" }}

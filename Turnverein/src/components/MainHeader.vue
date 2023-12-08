@@ -83,9 +83,6 @@ export default {
       }
       return `${this.userStore.userData.first_name} ${this.userStore.userData.last_name}`;
     },
-    isStaffUser() {
-      return this.userStore.userData.is_staff;
-    },
     isActiveRoute() {
       return (route: string) => {
         return this.$route.path === route;
