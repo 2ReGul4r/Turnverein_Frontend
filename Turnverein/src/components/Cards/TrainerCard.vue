@@ -39,7 +39,7 @@ import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user";
 import axiosInstance from "@/axios-config";
 import { AxiosError } from "axios";
-import DeleteTrainerPopup from "@/components/DeleteTrainerPopup.vue";
+import DeleteTrainerPopup from "@/components/PopUps/DeleteTrainerPopup.vue";
 import { useAppStore } from "@/store/app";
 
 export default defineComponent({

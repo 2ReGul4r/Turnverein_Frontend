@@ -96,9 +96,9 @@ import axiosInstance from "@/axios-config";
 import { AxiosError, AxiosResponse } from "axios";
 import { Participant } from "types";
 import { defineComponent } from "vue";
-import CourseEditPopup from "@/components/CourseEditPopup.vue";
-import AddParticipantPopup from "@/components/AddParticipantPopup.vue";
-import RemoveMemberPopup from "@/components/RemoveMemberPopup.vue";
+import CourseEditPopup from "@/components/PopUps/CourseEditPopup.vue";
+import AddParticipantPopup from "@/components/PopUps/AddParticipantPopup.vue";
+import RemoveMemberPopup from "@/components/PopUps/RemoveMemberPopup.vue";
 
 export default defineComponent({
   name: "CourseCard",

@@ -55,7 +55,7 @@ import { useUserStore } from "@/store/user";
 import { useAppStore } from "@/store/app";
 import { mapStores } from "pinia";
 import { getPaginationButtonStyles } from "./../../utils";
-import TrainerCreatePopup from "@/components/TrainerCreatePopup.vue";
+import TrainerCreatePopup from "@/components/PopUps/TrainerCreatePopup.vue";
 
 export default {
   name: "TrainerView",

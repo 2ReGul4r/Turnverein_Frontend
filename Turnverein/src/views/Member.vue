@@ -54,7 +54,7 @@ import { useUserStore } from "@/store/user";
 import { useAppStore } from "@/store/app";
 import { mapStores } from "pinia";
 import { getPaginationButtonStyles } from "./../../utils";
-import MemberCreatePopup from "@/components/MemberCreatePopup.vue";
+import MemberCreatePopup from "@/components/PopUps/MemberCreatePopup.vue";
 
 export default {
   name: "MemberPage",

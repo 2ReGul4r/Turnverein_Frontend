@@ -54,7 +54,7 @@ import CourseCard from "@/components/Cards/CourseCard.vue";
 import { useAppStore } from "@/store/app";
 import { mapStores } from "pinia";
 import { getPaginationButtonStyles } from "./../../utils";
-import CourseCreatePopup from "@/components/CourseCreatePopup.vue";
+import CourseCreatePopup from "@/components/PopUps/CourseCreatePopup.vue";
 
 export default {
   name: "CoursesPage",

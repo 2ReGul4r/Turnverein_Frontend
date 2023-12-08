@@ -33,8 +33,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import MemberEditPopup from "@/components/MemberEditPopup.vue";
-import DeleteMemberPopup from "../DeleteMemberPopup.vue";
+import MemberEditPopup from "@/components/PopUps/MemberEditPopup.vue";
+import DeleteMemberPopup from "@/components/PopUps/DeleteMemberPopup.vue";
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user";
 
