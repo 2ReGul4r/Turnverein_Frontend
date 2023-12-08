@@ -1,7 +1,7 @@
 // Composables
 import { createRouter, createWebHistory } from "vue-router";
 import axiosInstance from "../axios-config";
-import { AxiosResponse, AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { useAppStore } from "@/store/app";
 
 const routes = [
@@ -39,11 +39,6 @@ const routes = [
         name: "Profile",
         component: () => import("@/views/Profile.vue"),
       },
-      {
-        path: "register",
-        name: "Register",
-        component: () => import("@/views/Register.vue"),
-      },
     ],
   },
 ];
@@ -65,7 +60,7 @@ router.beforeEach(async (to, from, next) => {
   } else {
     await axiosInstance
       .post("check-auth", { token: localStorage.getItem("token") })
-      .then(async (response: AxiosResponse) => {
+      .then(async () => {
         appStore.showHeader = true;
         if (to.name !== "Login") {
           next();
@@ -74,6 +69,7 @@ router.beforeEach(async (to, from, next) => {
         }
       })
       .catch((error: AxiosError) => {
+        console.log(error);
         localStorage.removeItem("token");
         next({ name: "Login" });
       });

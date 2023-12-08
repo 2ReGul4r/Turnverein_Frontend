@@ -1,16 +1,17 @@
 <template>
   <v-card
     v-if="sport && trainer"
-    :title="getTitle"
+    :title="sport.name"
     :subtitle="getTrainerName"
     :loading="loading"
     :width="width"
     :style="getComputedStyle"
     class="course_card d-flex flex-column"
+    data-testid="course_card-wrapper"
     variant="tonal"
   >
     <div class="course_card_content">
-      <v-chip-group v-if="!showMember">
+      <v-chip-group v-if="!showMember" data-testid="course_card-chips">
         <v-chip class="course_card_chip" prepend-icon="mdi-timer-sand">
           {{ date.course_length + " Minutes" }}
         </v-chip>
@@ -33,6 +34,7 @@
         <v-virtual-scroll
           v-if="!isEmptyMemberList"
           :items="memberList"
+          data-testid="course_card-memberlist"
           item-height="50"
         >
           <template v-slot:default="{ item }">
@@ -45,7 +47,7 @@
                   <RemoveMemberPopup
                     @participantUpdate="fetchMember"
                     :item="item"
-                    :title="getTitle"
+                    :title="sport.name"
                   />
                   <v-icon>mdi-delete</v-icon>
                 </v-btn>
@@ -55,7 +57,6 @@
         </v-virtual-scroll>
         <v-list-item>
           <v-btn
-            @click=""
             block
             rounded
             variant="tonal"
@@ -74,7 +75,7 @@
     </div>
     <v-spacer></v-spacer>
     <v-card-actions v-if="!hideActions">
-      <v-btn v-if="!hideEdit" class="course_card_action" variant="tonal">
+      <v-btn v-if="!hideEdit" class="course_card_action" variant="tonal" data-testid="course_card-edit-button">
         Edit
         <CourseEditPopup
           :id="id"
@@ -88,6 +89,7 @@
       <v-btn
         @click="toggleMemberList"
         class="course_card_action"
+        data-testid="course_card-togglemember-button"
         variant="tonal"
       >
         {{ showMember ? "Show course details" : "Show students" }}
@@ -145,11 +147,8 @@ export default defineComponent({
     },
   },
   computed: {
-    getTitle() {
-      return this.sport?.name;
-    },
     getTrainerName() {
-      return `with ${this.trainer?.first_name} ${this.trainer?.last_name}`;
+      return `with ${this.trainer?.full_name}`;
     },
     getDateDays() {
       let day_list: Array<String> = [];
@@ -187,7 +186,6 @@ export default defineComponent({
         })
         .then((response: AxiosResponse) => {
           this.memberList = response.data.data;
-          console.log(this.memberList);
         })
         .catch((error: AxiosError) => {
           console.log(error);

@@ -1,10 +1,11 @@
 <template>
   <v-card
     v-if="member"
-    :title="getTitle"
+    :title="member.full_name"
     :width="width"
     :style="getComputedStyle"
     class="member_card d-flex flex-column"
+    data-testid="member_card-wrapper"
     variant="tonal"
   >
     <v-card-item prepend-icon="mdi-cake">
@@ -59,9 +60,6 @@ export default defineComponent({
   },
   computed: {
     ...mapStores(useUserStore),
-    getTitle() {
-      return `${this.member?.first_name} ${this.member?.last_name}`;
-    },
     getComputedStyle() {
       return { "min-width": this.width + "px" };
     },

@@ -105,7 +105,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import axiosInstance from "@/axios-config";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError } from "axios";
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user";
 import { isRequired, minLengthEight } from "@/validations";
@@ -128,7 +128,7 @@ export default defineComponent({
             },
           }
         )
-        .then(async (response: AxiosResponse) => {
+        .then(async () => {
           await this.userStore.fetchUserData();
         })
         .catch((error: AxiosError) => {
@@ -146,7 +146,7 @@ export default defineComponent({
             },
           }
         )
-        .then(async (response: AxiosResponse) => {
+        .then(async () => {
           await this.userStore.logout();
         })
         .catch((error: AxiosError) => {

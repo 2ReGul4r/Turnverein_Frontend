@@ -65,7 +65,6 @@ export const useAppStore = defineStore("app", {
           params: { page: page, sport: sport },
         })
         .then((response: AxiosResponse) => {
-          console.log(response.data)
           this.courseList = response.data.data;
           this.courseListPages = response.data.page_count;
         })

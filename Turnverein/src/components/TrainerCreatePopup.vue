@@ -91,7 +91,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import axiosInstance from "@/axios-config";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError } from "axios";
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user";
 import { isRequired, minLengthEight } from "@/validations";
@@ -121,8 +121,7 @@ export default defineComponent({
             },
           }
         )
-        .then(async (response: AxiosResponse) => {
-          console.log("response:", response);
+        .then(async () => {
           this.isActive = false;
           await this.appStore.fetchTrainer(this.page);
         })

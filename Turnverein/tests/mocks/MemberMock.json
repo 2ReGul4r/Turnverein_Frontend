@@ -1,0 +1,13 @@
+{
+    "id": 3,
+    "first_name": "Tobias",
+    "last_name": "Muster",
+    "full_name": "Tobias Muster",
+    "birthday": "1990-12-30",
+    "street": "Andere-Straße",
+    "house_number": "12a",
+    "postcode": {
+        "postcode": 10365,
+        "city": "Berlin-Lichtenberg"
+    }
+}

@@ -40,7 +40,7 @@
 
 <script lang="ts">
 import axiosInstance from "@/axios-config";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError } from "axios";
 import { defineComponent } from "vue";
 import { mapStores } from "pinia";
 import { useDataStore } from "@/store/data";
@@ -85,7 +85,7 @@ export default defineComponent({
             },
           }
         )
-        .then(async (response: AxiosResponse) => {
+        .then(async () => {
           this.$emit("participantUpdate");
         })
         .catch((error: AxiosError) => {

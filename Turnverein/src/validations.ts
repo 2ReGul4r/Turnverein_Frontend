@@ -3,7 +3,7 @@ export function isRequired(value: string) {
 }
 
 export function notEmptyArray(value: []) {
-  return value.length > 0 || "This field is required";;
+  return value.length > 0 || "This field is required";
 }
 
 export function isEmail(value: string) {

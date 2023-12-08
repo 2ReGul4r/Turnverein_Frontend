@@ -1,0 +1,38 @@
+{
+    "data": [
+        {
+            "id": 22,
+            "course": 25,
+            "member": {
+                "id": 3,
+                "first_name": "Tobias",
+                "last_name": "Muster",
+                "full_name": "Tobias Muster",
+                "birthday": "1990-12-30",
+                "street": "Andere-Straße",
+                "house_number": "12a",
+                "postcode": {
+                    "postcode": 10365,
+                    "city": "Berlin-Lichtenberg"
+                }
+            }
+        },
+        {
+            "id": 24,
+            "course": 25,
+            "member": {
+                "id": 4,
+                "first_name": "Anton",
+                "last_name": "Halb",
+                "full_name": "Anton Halb",
+                "birthday": "2001-12-24",
+                "street": "Osterstraße",
+                "house_number": "22",
+                "postcode": {
+                    "postcode": 55432,
+                    "city": "Damscheid"
+                }
+            }
+        }
+    ]
+}

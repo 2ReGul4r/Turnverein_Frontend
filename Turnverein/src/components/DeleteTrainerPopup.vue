@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import axiosInstance from "@/axios-config";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError } from "axios";
 import { defineComponent } from "vue";
 import { mapStores } from "pinia";
 import { useAppStore } from "@/store/app";
@@ -49,7 +49,7 @@ export default defineComponent({
           headers: { Authorization: `Token ${localStorage.getItem("token")}` },
           params: { id: this.trainer.id },
         })
-        .then(async (response: AxiosResponse) => {
+        .then(async () => {
           this.appStore.fetchTrainer(this.page);
         })
         .catch((error: AxiosError) => {

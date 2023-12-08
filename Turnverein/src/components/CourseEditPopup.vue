@@ -77,7 +77,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import axiosInstance from "@/axios-config";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError } from "axios";
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user";
 import { useDataStore } from "@/store/data";
@@ -129,7 +129,7 @@ export default defineComponent({
             },
           }
         )
-        .then(async (response: AxiosResponse) => {
+        .then(async () => {
           this.isActive = false;
           await this.userStore.fetchUserCourses(this.page);
         })
@@ -143,7 +143,7 @@ export default defineComponent({
           headers: { Authorization: `Token ${localStorage.getItem("token")}` },
           params: { id: this.id },
         })
-        .then(async (response: AxiosResponse) => {
+        .then(async () => {
           this.isActive = false;
           await this.userStore.fetchUserCourses(this.page);
         })

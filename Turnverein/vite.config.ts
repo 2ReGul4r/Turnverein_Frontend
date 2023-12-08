@@ -1,13 +1,28 @@
+/// <reference types="vitest" />
+
 // Plugins
-import vue from "@vitejs/plugin-vue"
-import vuetify, { transformAssetUrls } from "vite-plugin-vuetify"
+import vue from "@vitejs/plugin-vue";
+import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 
 // Utilities
-import { defineConfig } from "vite"
-import { fileURLToPath, URL } from "node:url"
+import { defineConfig } from "vite";
+import { fileURLToPath, URL } from "node:url";
+import type { InlineConfig } from 'vitest';
+import type { UserConfig } from 'vite';
+
+type ViteConfig = UserConfig & { test: InlineConfig };
 
 // https://vitejs.dev/config/
-export default defineConfig({
+const config: ViteConfig = {
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    server: {
+      deps: {
+        inline: ['vuetify'],
+      },
+    },
+  },
   plugins: [
     vue({ 
       template: { transformAssetUrls }
@@ -35,4 +50,6 @@ export default defineConfig({
   server: {
     port: 3000,
   },
-})
+};
+
+export default defineConfig(config);

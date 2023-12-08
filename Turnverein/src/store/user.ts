@@ -47,7 +47,7 @@ export const useUserStore = defineStore("user", {
     async logout() {
       await axiosInstance
         .post("logout", { token: localStorage.getItem("token") })
-        .then(async (response: AxiosResponse) => {
+        .then(async () => {
           await this.$reset();
           await localStorage.removeItem("token");
         })

@@ -26,7 +26,7 @@
 
 <script lang="ts">
 import axiosInstance from "@/axios-config";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError } from "axios";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "RemoveMemberPopup",
@@ -49,7 +49,7 @@ export default defineComponent({
           headers: { Authorization: `Token ${localStorage.getItem("token")}` },
           params: { id: participantId },
         })
-        .then(async (response: AxiosResponse) => {
+        .then(async () => {
           this.$emit("participantUpdate");
         })
         .catch((error: AxiosError) => {

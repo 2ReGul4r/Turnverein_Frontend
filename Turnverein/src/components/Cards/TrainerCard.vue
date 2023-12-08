@@ -37,7 +37,7 @@ import { defineComponent } from "vue";
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user";
 import axiosInstance from "@/axios-config";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError } from "axios";
 import DeleteTrainerPopup from "@/components/DeleteTrainerPopup.vue";
 import { useAppStore } from "@/store/app";
 
@@ -70,7 +70,7 @@ export default defineComponent({
             },
           }
         )
-        .then(async (response: AxiosResponse) => {
+        .then(async () => {
           await this.appStore.fetchTrainer(this.page);
         })
         .catch((error: AxiosError) => {

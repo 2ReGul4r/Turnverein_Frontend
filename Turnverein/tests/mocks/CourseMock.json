@@ -1,0 +1,31 @@
+{
+    "id": 3,
+    "sport": {
+        "id": 13,
+        "name": "Schwimmen"
+    },
+    "trainer": {
+        "id": 2,
+        "first_name": "Charlotte",
+        "last_name": "Kohl",
+        "full_name": "Charlotte Kohl (ckohl)",
+        "birthday": "1999-03-20",
+        "street": "Teststraße",
+        "house_number": "12",
+        "postcode": {
+            "postcode": 54292,
+            "city": "Trier"
+        },
+        "username": "ckohl",
+        "is_staff": true,
+        "last_login": "2023-11-13T13:37:08.174357Z"
+    },
+    "date": {
+        "id": 4,
+        "course_length": 60,
+        "days": 4,
+        "hour": 17,
+        "minute": 0
+    },
+    "hall": "Rheinwelle"
+}
