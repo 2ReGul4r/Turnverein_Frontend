@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="addParticipantDialog" activator="parent" class="dialog">
+  <v-dialog v-model="addParticipantDialog" activator="parent" class="dialog" data-testid="participant_popup-dialog">
     <v-card :title="getTitle" :loading="loading">
       <v-form @submit.prevent="addParticipant">
         <div class="wrapper">
