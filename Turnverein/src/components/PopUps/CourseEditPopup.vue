@@ -194,11 +194,6 @@ export default defineComponent({
     this.hallEdit = this.hall;
     this.setDays();
   },
-  watch: {
-    daysEdit() {
-      console.log(this.daysEdit);
-    },
-  },
   data() {
     return {
       isActive: false,

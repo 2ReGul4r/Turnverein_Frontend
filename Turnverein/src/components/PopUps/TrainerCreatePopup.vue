@@ -1,6 +1,6 @@
 <template>
-  <v-dialog v-model="isActive" activator="parent" class="dialog">
-    <v-card title="Create trainer">
+  <v-dialog v-model="isActive" activator="parent" class="dialog" data-testid="trainer_create_popup-dialog">
+    <v-card title="Create trainer" data-testid="trainer_create_popup-card">
       <v-form @submit.prevent="createTrainer">
         <div class="wrapper">
           <v-text-field
@@ -110,7 +110,6 @@ export default defineComponent({
   },
   methods: {
     async createTrainer() {
-      console.log(this.trainer);
       await axiosInstance
         .post(
           "register",

@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="removeMemberDialog" activator="parent" width="auto">
+  <v-dialog v-model="removeMemberDialog" activator="parent" data-testid="remove_member_popup-dialog" width="auto">
     <v-card :loading="loading">
       <v-card-text>
         {{
@@ -28,6 +28,7 @@
 import axiosInstance from "@/axios-config";
 import { AxiosError } from "axios";
 import { defineComponent } from "vue";
+
 export default defineComponent({
   name: "RemoveMemberPopup",
   props: {
@@ -42,7 +43,6 @@ export default defineComponent({
   },
   methods: {
     async deleteParticipant(participantId: number) {
-      console.log(participantId);
       this.loading = true;
       await axiosInstance
         .delete("participant", {

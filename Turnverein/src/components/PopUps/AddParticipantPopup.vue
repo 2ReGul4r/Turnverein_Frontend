@@ -73,7 +73,6 @@ export default defineComponent({
   },
   methods: {
     async addParticipant() {
-      console.log(this.participantIds);
       this.loading = true;
       await axiosInstance
         .post(
