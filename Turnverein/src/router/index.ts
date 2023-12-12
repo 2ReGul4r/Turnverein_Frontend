@@ -61,12 +61,12 @@ router.beforeEach(async (to, from, next) => {
     await axiosInstance
       .post("check-auth", { token: localStorage.getItem("token") })
       .then(async () => {
-        appStore.showHeader = true;
         if (to.name !== "Login") {
           next();
         } else {
           next({ name: "Home" });
         }
+        appStore.showHeader = true;
       })
       .catch((error: AxiosError) => {
         console.log(error);

@@ -63,6 +63,7 @@ import {
 } from "../validations";
 import { useUserStore } from "@/store/user";
 import { mapStores } from "pinia";
+import router from "../router";
 
 export default {
   name: "Login",
@@ -72,11 +73,16 @@ export default {
   methods: {
     async login() {
       this.loading = true;
-      this.showError = !(await this.userStore.login(
+      const hasError = !(await this.userStore.login(
         this.username,
         this.password
       ));
       this.loading = false;
+      if (hasError) {
+        this.showError = true;
+        return;
+      }
+      router.push("/");
     },
   },
   data: () => ({

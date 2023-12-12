@@ -35,6 +35,10 @@
         v-bind="course"
         hideEdit
       />
+      <v-alert v-if="courseData.length === 0" title="Alert" icon="$info">
+        At this moment there are no courses. You can create your courses at
+        <a href="/courses"> All Courses </a>
+      </v-alert>
     </template>
     <template #pagination>
       <v-pagination
