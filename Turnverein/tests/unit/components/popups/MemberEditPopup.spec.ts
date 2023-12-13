@@ -11,8 +11,8 @@ describe("MemberEditPopup.vue", () => {
         page: 1,
       },
     });
-    expect(
-      wrapper.find('[data-testid="member_edit_popup-dialog"]').exists()
-    ).toBe(true);
+    expect(wrapper.find('[data-testid="member_edit_popup-dialog"]').exists()).toBe(
+      true
+    );
   });
 });

@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="deleteTrainerDialog" activator="parent" width="auto">
+  <v-dialog v-model="deleteTrainerDialog" activator="parent" width="auto" data-testid="delete_trainer_popup-dialog">
     <v-card :loading="loading">
       <v-card-text>
         {{ `Are you sure you want to delete ${trainer.full_name}?` }}

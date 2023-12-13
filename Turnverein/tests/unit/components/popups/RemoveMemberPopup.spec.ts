@@ -11,8 +11,8 @@ describe("RemoveMemberPopup.vue", () => {
         title: 'Tennis',
       },
     });
-    expect(
-      wrapper.find('[data-testid="remove_member_popup-dialog"]').exists()
-    ).toBe(true);
+    expect(wrapper.find('[data-testid="remove_member_popup-dialog"]').exists()).toBe(
+      true
+    );
   });
 });

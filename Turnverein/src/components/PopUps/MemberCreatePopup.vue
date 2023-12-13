@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="isActive" activator="parent" class="dialog">
+  <v-dialog v-model="isActive" activator="parent" class="dialog" data-testid="member_create_popup-dialog">
     <v-card title="Create member">
       <v-form @submit.prevent="createMember">
         <div class="wrapper">
