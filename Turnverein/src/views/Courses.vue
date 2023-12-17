@@ -36,8 +36,13 @@
         hideEdit
       />
       <v-alert v-if="courseData.length === 0" title="Alert" icon="$info">
-        At this moment there are no courses. You can create your courses at
-        <a href="/courses"> All Courses </a>
+        <div v-if="searchText.length === 0">
+          At this moment there are no courses. You can create your courses at
+          <a href="/courses"> All Courses </a>
+        </div>
+        <div v-else>
+          No courses found with that name.
+        </div>
       </v-alert>
     </template>
     <template #pagination>

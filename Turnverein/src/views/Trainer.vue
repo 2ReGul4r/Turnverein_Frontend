@@ -35,6 +35,14 @@
         :trainer="trainer"
         :page="page"
       />
+      <v-alert v-if="trainerData.length === 0" title="Alert" icon="$info">
+        <div v-if="searchText.length === 0">
+          At this moment there are no trainers.
+        </div>
+        <div v-else>
+          No trainers found with that name.
+        </div>
+      </v-alert>
     </template>
     <template #pagination>
       <v-pagination

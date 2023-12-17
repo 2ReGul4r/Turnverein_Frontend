@@ -34,6 +34,14 @@
         :page="page"
         :member="member"
       />
+      <v-alert v-if="memberData.length === 0" title="Alert" icon="$info">
+        <div v-if="searchText.length === 0">
+          At this moment there are no members.
+        </div>
+        <div v-else>
+          No members found with that name.
+        </div>
+      </v-alert>
     </template>
     <template #pagination>
       <v-pagination
