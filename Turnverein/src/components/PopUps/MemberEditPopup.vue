@@ -104,27 +104,24 @@ export default defineComponent({
         });
     },
   },
-  mounted() {
-    this.member = {
-      id: this.memberOriginal.id,
-      first_name: this.memberOriginal.first_name,
-      last_name: this.memberOriginal.last_name,
-      birthday: this.memberOriginal.birthday,
-      street: this.memberOriginal.street,
-      house_number: this.memberOriginal.house_number,
-      postcode: {
-        postcode: this.memberOriginal.postcode.postcode,
-        city: this.memberOriginal.postcode.city,
-      },
-    };
-  },
   data() {
     return {
       isActive: false,
       isFormValid: false,
       isRequired: [isRequired],
       notEmptyArray: [notEmptyArray],
-      member: {} as Member,
+      member: {
+        id: this.memberOriginal.id,
+        first_name: this.memberOriginal.first_name,
+        last_name: this.memberOriginal.last_name,
+        birthday: this.memberOriginal.birthday,
+        street: this.memberOriginal.street,
+        house_number: this.memberOriginal.house_number,
+        postcode: {
+          postcode: this.memberOriginal.postcode.postcode,
+          city: this.memberOriginal.postcode.city,
+        },
+      } as Member,
     };
   },
 });

@@ -168,7 +168,6 @@ export default defineComponent({
   },
   mounted() {
     this.trainer = this.userStore.getUserData;
-    console.log(this.trainer);
   },
   data() {
     return {
