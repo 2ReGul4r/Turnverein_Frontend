@@ -94,10 +94,9 @@ export default {
     usernameRules: [isRequired, noSymbols, minLengthFive],
     passwordRules: [isRequired, minLengthEight],
   }),
-  mounted() {
-    if (localStorage.getItem("token")) {
+    mounted() {
+    if (!this.userStore.userData.id && localStorage.getItem("token")) {
       this.userStore.fetchUserData();
-      console.log('from here');
     }
   },
 };
