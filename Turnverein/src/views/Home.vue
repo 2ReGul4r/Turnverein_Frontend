@@ -84,9 +84,11 @@ export default {
     },
   },
   async mounted() {
-    await this.userStore.fetchUserCourses(this.page);
-    await this.dataStore.fetchMember();
-    await this.dataStore.fetchTrainer();
+    if(localStorage.getItem("token")) {
+      await this.userStore.fetchUserCourses(this.page);
+      await this.dataStore.fetchMember();
+      await this.dataStore.fetchTrainer();
+    }
   },
   watch: {
     async page() {

@@ -28,10 +28,5 @@ export default {
       return this.appStore.shouldShowHeader;
     },
   },
-  mounted() {
-    if (!this.userStore.userData.id && localStorage.getItem("token") !== null) {
-      this.userStore.fetchUserData();
-    }
-  },
 };
 </script>

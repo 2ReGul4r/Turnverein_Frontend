@@ -7,6 +7,7 @@
     "preview": "vite preview",
     "lint": "eslint . --fix --ignore-path .gitignore",
     "test": "vitest",
+    "e2e": "npx cypress run",
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
