@@ -57,6 +57,7 @@
           ></v-list-item>
           <v-list-item
             @click="userStore.logout"
+            id="nav_logout_button"
             prepend-icon="mdi-logout"
             title="Logout"
           ></v-list-item>

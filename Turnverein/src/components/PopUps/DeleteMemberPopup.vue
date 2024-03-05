@@ -37,6 +37,10 @@ export default defineComponent({
       type: Number,
       required: true,
     },
+    searchText: {
+      type: String,
+      required: true,
+    },
   },
   computed: {
     ...mapStores(useAppStore),
@@ -50,7 +54,7 @@ export default defineComponent({
           params: { id: this.member.id },
         })
         .then(async () => {
-          this.appStore.fetchMember(this.page);
+          this.appStore.fetchMember(this.page, this.searchText);
         })
         .catch((error: AxiosError) => {
           console.log(error);

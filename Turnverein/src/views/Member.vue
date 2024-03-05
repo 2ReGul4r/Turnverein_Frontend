@@ -32,6 +32,7 @@
         :key="member.id"
         class="course_card"
         :page="page"
+        :search-text="searchText"
         :member="member"
       />
       <v-alert v-if="memberData.length === 0" title="Alert" icon="$info">

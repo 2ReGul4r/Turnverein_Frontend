@@ -35,13 +35,13 @@
             variant="outlined"
           />
           <v-text-field
-            v-model="member.postcode.postcode"
+            v-model="member.postcode"
             label="Postcode"
             :rules="isRequired"
             variant="outlined"
           />
           <v-text-field
-            v-model="member.postcode.city"
+            v-model="member.city"
             label="City"
             :rules="isRequired"
             variant="outlined"
@@ -111,10 +111,8 @@ export default defineComponent({
         birthday: "" as String,
         street: "" as String,
         house_number: "" as String,
-        postcode: {
-          postcode: null as Number | null,
-          city: "" as String,
-        },
+        postcode: null as Number | null,
+        city: "" as String,
       },
     };
   },

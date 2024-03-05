@@ -94,7 +94,7 @@
 <script lang="ts">
 import axiosInstance from "@/axios-config";
 import { AxiosError, AxiosResponse } from "axios";
-import { Participant } from "types";
+import { Participant } from "../../../types";;
 import { defineComponent } from "vue";
 import CourseEditPopup from "@/components/PopUps/CourseEditPopup.vue";
 import AddParticipantPopup from "@/components/PopUps/AddParticipantPopup.vue";

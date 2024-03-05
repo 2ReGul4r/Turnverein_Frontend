@@ -8,6 +8,7 @@ describe("DeleteMemberPopup.vue", () => {
         const wrapper = shallowMount(DeleteMemberPopup, {
             props: {
                 member: MemberMock,
+                searchText: "",
                 page: 1,
             },
         });

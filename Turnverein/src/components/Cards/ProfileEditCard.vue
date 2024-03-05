@@ -201,7 +201,6 @@ export default defineComponent({
   display: flex;
   flex-flow: row wrap;
   justify-content: space-evenly;
-  margin-bottom: 32px;
   row-gap: 16px;
 }
 .wrapper {

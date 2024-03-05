@@ -21,7 +21,7 @@
     <v-card-actions>
       <v-btn v-if="isStaffUser" variant="tonal">
         Delete
-        <DeleteMemberPopup :member="member" :page="page" />
+        <DeleteMemberPopup :member="member" :page="page" :search-text="searchText"/>
       </v-btn>
       <v-btn class="member_card_action" variant="tonal">
         Edit
@@ -55,6 +55,10 @@ export default defineComponent({
     },
     page: {
       type: Number,
+      required: true,
+    },
+    searchText: {
+      type: String,
       required: true,
     },
   },

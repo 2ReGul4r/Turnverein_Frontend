@@ -8,6 +8,7 @@ describe("MemberCard.vue", () => {
     const wrapper = shallowMount(MemberCardVue, {
       props: {
         member: MemberMock,
+        searchText: "",
         page: 1,
       },
     });

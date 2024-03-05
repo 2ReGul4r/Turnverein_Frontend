@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { Member, Trainer } from "types";
+import { Member, Trainer } from "../../../types";;
 import axiosInstance from "../axios-config";
 import { AxiosResponse, AxiosError } from "axios";
 

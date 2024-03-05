@@ -66,7 +66,7 @@ import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user";
 import { isRequired, notEmptyArray } from "@/validations";
 import { useAppStore } from "@/store/app";
-import { Member } from "types";
+import { Member } from "../../../types";
 
 export default defineComponent({
   name: "MemberEditPopup",
