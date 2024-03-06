@@ -78,6 +78,7 @@
           :trainer="trainer"
           :sport="sport"
           :page="page"
+          :search-text="searchText"
         />
       </v-btn>
       <v-btn
@@ -136,6 +137,10 @@ export default defineComponent({
     },
     page: {
       type: Number,
+      required: true,
+    },
+    searchText: {
+      type: String,
       required: true,
     },
   },

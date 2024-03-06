@@ -19,6 +19,7 @@
         v-for="course in courseData"
         :key="`course-${course.id}`"
         :page="page"
+        :search-text="searchText"
         class="course_card"
         v-bind="course"
       />
@@ -85,14 +86,14 @@ export default {
   },
   async mounted() {
     if(localStorage.getItem("token")) {
-      await this.userStore.fetchUserCourses(this.page);
+      await this.userStore.fetchUserCourses(this.page, this.searchText);
       await this.dataStore.fetchMember();
       await this.dataStore.fetchTrainer();
     }
   },
   watch: {
     async page() {
-      await this.userStore.fetchUserCourses(this.page);
+      await this.userStore.fetchUserCourses(this.page, this.searchText);
     },
   },
   data() {

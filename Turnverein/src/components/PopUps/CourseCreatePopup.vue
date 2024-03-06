@@ -88,6 +88,10 @@ export default defineComponent({
       type: Number,
       required: true,
     },
+    searchText: {
+      type: String,
+      required: true,
+    },
   },
   computed: {
     ...mapStores(useUserStore, useDataStore),
@@ -111,7 +115,7 @@ export default defineComponent({
           }
         )
         .then(async () => {
-          await this.userStore.fetchUserCourses(this.page);
+          await this.userStore.fetchUserCourses(this.page, this.searchText);
           this.isActive = false;
         })
         .catch((error: AxiosError) => {

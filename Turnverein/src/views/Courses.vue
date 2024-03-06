@@ -21,7 +21,7 @@
         rounded
       >
         Create Course
-        <CourseCreatePopup :page="page" />
+        <CourseCreatePopup :page="page" :search-text="searchText" />
       </v-btn>
     </div>
   </v-form>
@@ -31,6 +31,7 @@
         v-for="course in courseData"
         :key="course.id"
         :page="page"
+        :search-text="searchText"
         class="course_card"
         v-bind="course"
         hideEdit
