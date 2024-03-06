@@ -9,12 +9,14 @@ export const useUserStore = defineStore("user", {
     userData: {} as Trainer,
     userCourses: [] as Course[],
     userCoursePages: 1 as number,
+    loginError: false as boolean,
   }),
 
   getters: {
     getUserData: (state) => state.userData,
     getUserCourses: (state) => state.userCourses,
     getUserCoursePages: (state) => state.userCoursePages,
+    getLoginError: (state) => state.loginError,
   },
 
   actions: {
@@ -34,15 +36,15 @@ export const useUserStore = defineStore("user", {
       await axiosInstance
         .post("login", { username: username, password: password })
         .then(async (response: AxiosResponse) => {
+          this.loginError = false;
           await localStorage.setItem("token", response.data.token);
           this.userData = response.data.userdata;
           await this.fetchUserCourses();
         })
         .catch((error: AxiosError) => {
           console.log(error);
-          return false;
+          this.loginError = true;
         });
-      return true;
     },
     async logout() {
       await axiosInstance

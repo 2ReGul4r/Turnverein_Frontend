@@ -72,13 +72,10 @@ export default {
   },
   methods: {
     async login() {
+      await this.userStore.login(this.username, this.password);
       this.loading = true;
-      const hasError = !(await this.userStore.login(
-        this.username,
-        this.password
-      ));
       this.loading = false;
-      if (hasError) {
+      if (this.userStore.getLoginError) {
         this.showError = true;
         return;
       }
