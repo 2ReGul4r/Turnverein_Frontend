@@ -1,3 +1,7 @@
+#Schulprojekt Turnverein
+Dies ist das Backend Repo für eines meiner in der Ausbildung umgesetzten Schulprojekte. Hierbei ging es darum eine kleine Full-Stack Anwendung zu bauen. Das Thema war eine Mitglieder- und Kursverwaltung einer Sportvereins.
+
+
 ## Project setup
 
 ```
